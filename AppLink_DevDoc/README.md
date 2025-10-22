@@ -65,18 +65,15 @@ First, as soon as user wants to drop model to 3D-Coat from the Application, you 
 You expect that after all job over the model 3d-coat will create file with path **exchange_path**/**returnpath.obj** (generally name may be any different, this name is just for instance)
 
 Create **import.txt** like
-
+'''
 **exchange_path**/**exportfile.obj** 
-
 **exchange_path**/**returnpath.obj**
-
 **_\[ppp\]_**
-
 **_\[export_preset Blender Cycles\]_**
-
+'''
 \[ppp\] means that you need to open file for perpixel painting. There are a lot of other options how to open the file. See the list below:
 
-- - Paint mesh in 3D-Coat using per-pixel painting **\[ppp\]**
+    - Paint mesh in 3D-Coat using per-pixel painting **\[ppp\]**
     - Paint mesh in 3D-Coat using microvertex painting **\[mv\]**
     - Paint mesh in 3D-Coat using Ptex **\[ptex\]**
     - Perform UV-mapping in 3D-Coat **\[uv\]**
@@ -182,17 +179,13 @@ will be created. The file contains path to exported model file. It is the same n
 **exchange_path**/**exportfile.obj**
 
 Also the file **exchange_path**/**textures.txt** will be created. It contains references to textures created during export
-
+'''
 **Name_of_material_1**
-
 **Name_of_uv_set_1**
-
 **Texure_uage_1**
-
 **Absolute_path_to_texture_1**
-
 **_….same for second and other textures …_**
-
+'''
 Texture usage is taken from the export presets tags, so you may easily identify type of texture. If Export constructor is not used then tags **color**, **specular**, **displacement**, **normalmap** are used**.** It there is tag **displacement** additional floating number will be written below – scale factor for displacement, it looks like
 
 **displacement 1.345**
@@ -220,25 +213,19 @@ place some **OBJ/LWO/FBX** file there like **sample.obj** (mtl and textures too 
 create file **c:/Users/Andrew/Documents/AppLinks/3D-Coat/Exchange/import.txt** and place 3 lines there:
 
 \[look the end of document how to locate the folder for OSX/Linux\]
-
+'''
 **c:/Users/Andrew/Documents/AppLinks/3D-Coat/Exchange/_sample.obj_**
-
 **c:/Users/Andrew/Documents/AppLinks/3D-Coat/Exchange/_output.obj_**
-
 **_\[ppp\]_**
-
 **_\[export_preset Blender Cycles\]_**
-
+'''
 Note that you may drop multiple objects simultaneously, you should separate them with ; sign. They will be merged together before import. There should not be extra spaces between names and ; signs. Example:
-
+'''
 **c:/Users/Andrew/Documents/AppLinks/3D-Coat/Exchange/_sample1.obj;_c:/Users/Andrew/Documents/AppLinks/3D-Coat/Exchange/_sample2.obj_**
-
 **c:/Users/Andrew/Documents/AppLinks/3D-Coat/Exchange/_output.obj_**
-
 **_\[ppp\]_**
-
 **_\[export_preset Blender Cycles\]_**
-
+'''
 Once you will save file 3D-Coat will show import dialog for per-pixel painting and delete file import.txt. Press OK, draw something. Then use File->Bring object back (Open in original app). 3D-Coat will store file
 
 **c:/Users/Andrew/Documents/AppLinks/3D-Coat/Exchange/export.txt**
@@ -252,108 +239,69 @@ Also 3D-Coat creates file
 **c:/Users/Andrew/Documents/AppLinks/3D-Coat/Exchange/textures.txt**
 
 With lines:
-
+'''
 **_cube1_auv_**
-
 **_cube1_auv_**
-
 **_diffuse_**
-
 **_c:\\Users\\Andrew\\Documents\\AppLinks\\3D-Coat\\Exchange\\output_diffuse.tga_**
-
 **_cube1_auv_**
-
 **_cube1_auv_**
-
 **_reflection_**
-
 **_c:\\Users\\Andrew\\Documents\\AppLinks\\3D-Coat\\Exchange\\output_reflection.tga_**
-
 **_cube1_auv_**
-
 **_cube1_auv_**
-
 **_roughness_**
-
 **_c:\\Users\\Andrew\\Documents\\AppLinks\\3D-Coat\\Exchange\\output_roughness.tga_**
-
 **_cube1_auv_**
-
 **_cube1_auv_**
-
 **_normal_map_**
-
 **_c:\\Users\\Andrew\\Documents\\AppLinks\\3D-Coat\\Exchange\\output_normal_map.tga_**
-
 **_cube1_auv_**
-
 **_cube1_auv_**
-
 **_emissive_**
-
 **_c:\\Users\\Andrew\\Documents\\AppLinks\\3D-Coat\\Exchange\\output_emissive.tga_**
-
+'''
 Creation of the file export.txt is signal to other application to import files and replace object in scene by the object that was exported from 3D-Coat.
 
 Your plugin should delete file export.txt after reading it.
 
 Note: Objects may contain several sub-objects, several materials and several uv-sets. UV-set may contain several materials. You should handle this general situation.
 
-**Appliction 1. Seeking for exchange folder for OSX**
+## **Appliction 1**. Seeking for exchange folder for OSX
 
 common function for all OS:
-
+'''C
 void AppendSlash(char\* s){
-
-int L=strlen(s);
-
-if(L){
-
-char c=s\[L-1\];
-
-if(c!='\\\\' && c!='/')strcat(s,"/");
-
+	int L=strlen(s);
+	if(L){
+		char c=s\[L-1\];
+		if(c!='\\\\' && c!='/')strcat(s,"/");
+	}
 }
-
-}
-
 char str\[512\];
-
 FSRef F;
-
 if(noErr == FSFindFolder(kUserDomain, kCurrentUserFolderType, kCreateFolder, &F)) {
-
-FSRefMakePath(&F, (unsigned char \*)str,512);
-
-AppendSlash(str);
-
-strcat(str,"AppLinks/3D-Coat/Exchange/");
-
+	FSRefMakePath(&F, (unsigned char \*)str,512);
+	AppendSlash(str);
+	strcat(str,"AppLinks/3D-Coat/Exchange/");
 }
-
-**Application 2. Seeking for exchange folder for Linux**
-
+'''
+## **Application 2**. Seeking for exchange folder for Linux
+'''C
 char str\[512\];
-
 strcpy(str,g_get_home_dir());
-
 AppendSlash(str);
-
 strcat(str,” AppLinks/3D-Coat/Exchange/”);
-
-**Application 3. Seeking for exchange folder for Windows**
-
+'''
+## **Application 3**. Seeking for exchange folder for Windows
+'''C
 TCHAR Path\[MAX_PATH\];
-
 if(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL | CSIDL_FLAG_CREATE, NULL, 0, Path))) {
-
-AppendSlash(Path);
-
-strcat(Path, "AppLinks/3D-Coat/Exchange/");
-
+	AppendSlash(Path);
+	strcat(Path, "AppLinks/3D-Coat/Exchange/");
 }
-
-**Application 4: The general supposed architecture of plugin**
+'''
+## **Application 4**: The general supposed architecture of plugin**
 
 Initialisation section:
 
@@ -366,81 +314,50 @@ Processing section:
 - Once in 1 sec you should check if any of files **Exchange/import.txt** and **Exchange/YourApp/import.txt** exist. If plugin has no timer callback or threads it has some processing cycle anyway. In this processing cycle you may check if 1 sec passed since last check of files.
 
 It is supposed that plugin should not run 3D-Coat because there are many different versions and it will be difficult to determine what version user wants to use. But it will be helpful (but not required, optional) if plugin will check if process 3D-Coat is in memory and suppose to user to run it if process is not run. You should seek process that has substring “3D-Coat” in it’s name. There is sample of function to determine if 3D-Coat is in memory:
+'''C
+#include <tlhelp32.h>
 
-#include &lt;tlhelp32.h&gt;
 
 bool Find3DCoat(){
-
-HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-
-PROCESSENTRY32 pe;
-
-if(!hSnapshot)return false;
-
-pe.dwSize = sizeof(pe);
-
-for(int i = Process32First(hSnapshot, &pe); i; i=Process32Next(hSnapshot, &pe)){
-
-HANDLE hModuleSnap = NULL;
-
-MODULEENTRY32 me;
-
-hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,pe.th32ProcessID);
-
-if(hModuleSnap == (HANDLE) -1)continue;
-
-me.dwSize = sizeof(MODULEENTRY32);
-
-if(Module32First(hModuleSnap, &me)){
-
-do{
-
-char temp\[MAX_PATH\];
-
-strcpy_s(temp,MAX_PATH,me.szExePath);
-
-\_strupr_s(temp,MAX_PATH);
-
-int p=strlen(temp);
-
-char c=0;
-
-while(c!='\\\\' && c!='/' && p!=0){
-
-c=temp\[p--\];
-
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	PROCESSENTRY32 pe;
+	if(!hSnapshot)return false;	
+	pe.dwSize = sizeof(pe);
+	for(int i = Process32First(hSnapshot, &pe); i; i=Process32Next(hSnapshot, &pe)){
+		HANDLE hModuleSnap = NULL;
+		MODULEENTRY32 me;
+		hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,pe.th32ProcessID);
+		if(hModuleSnap == (HANDLE) -1)continue;
+		me.dwSize = sizeof(MODULEENTRY32);
+		if(Module32First(hModuleSnap, &me)){
+			do{
+				char temp[MAX_PATH];
+				strcpy_s(temp,MAX_PATH,me.szExePath);
+				_strupr_s(temp,MAX_PATH);
+				int p=strlen(temp);
+				char c=0;
+				while(c!='\\' && c!='/' && p!=0){
+					c=temp[p--];
+				}
+				char* s=temp+p;
+				strupr(s);
+				if(strstr(s,"3D-COAT")){
+					return true;
+				}	
+				break;
+			}while(Module32Next(hModuleSnap, &me));
+		}		
+	}
+	CloseHandle(hSnapshot);
+	return false;
 }
-
-char\* s=temp+p;
-
-strupr(s);
-
-if(strstr(s,"3D-COAT")){
-
-return true;
-
-}
-
-break;
-
-}while(Module32Next(hModuleSnap, &me));
-
-}
-
-}
-
-CloseHandle(hSnapshot);
-
-return false;
-
-}
-
-**Application 5**: Possible problems while making plugin.
+'''
+## **Application 5**: Possible problems while making plugin.
 
 - If you decided to seek if 3D-Coat’s process is in memory and run 3D-Coat (this step is optional) you need to run 3D-Coat as administrator on Vista/7
 - You are specifying the export path and file name for 3D-Coat in import.txt. If you are specifying the same path to the output object for different scenes it can cause problem because textures will be overwritten with textures from the new scene. You should specify path that will depend on user’s scene/name of object or so to avoid this problem.
 
-**Application 6:** Extra commands for **import.txt**
+## **Application 6:** Extra commands for **import.txt**
 
 Import.txt may have additional options in additional lines of the file.
 
