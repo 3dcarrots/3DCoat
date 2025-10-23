@@ -349,6 +349,8 @@ Set of export options could be changed using command like
 \[Option=value\]
 
 There is set of possible options and values:
+
+| --- | --- | --- |
 | **_Option_** | **_Value_** | **_Works for export constructor?_** |
 | ExportColor | 0 or 1 | No  |
 | ExportSpecular | 0 or 1 | No  |
@@ -373,5 +375,6 @@ There is set of possible options and values:
 | ExportResolution | LOW-POLY, MID-POLY | **Yes** |
 | **\[field field_id=value\]** | **Set field value in export dialog. This command generally replaces all of previous commandes. You may set any field in export dialog. Example**<br><br>**\[field $ExportOpt::UseExportConstructor = true\]**<br><br>**To get field_id click LMB+RMB or MMB+RMB over the required field in export dialog.** | **Yes** |
 | **\[click control_id\]** | **Click on any control in export dialog. Example - choose Unity preset -**<br><br>**\[click $COMBOBOX_Unity (Specular)\]**<br><br>**To get field_id click LMB+RMB or MMB+RMB over the required field in export dialog.** | **Yes** |
+| --- | --- | --- |
 
 **Generally it is much better to operate using export presets, way through “Options” is deprecated.**
