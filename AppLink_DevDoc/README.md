@@ -1,7 +1,9 @@
 # 3D-Coat AppLinks specifications
 
 **Applicable to 4.8.15 and later**
+
 ***Some features, such as Python support, may be available in newer versions; these features will be commented on separately next to their description.***
+
 AppLinks are intended to simplify data exchange between 3D-Coat and other applications. AppLink is a plugin written for the specific application.
 
 ## 1\. The exchange path.
@@ -80,22 +82,28 @@ The last line **_\[export_preset Blender Cycles\]_** means that you will choose�
 
 ***!! import.py is supported since 3DCoat version 2025.12 or later. !!***
 
-To execute Python scripts for import via AppLink, simply place the import.py file in the same folder as import.txt. After importing, both files will be deleted. If import.txt is empty, import.py will simply be executed and the standard import dialog from AppLink to 3DCoat will not open, allowing you to perform silent imports or custom dialogs.
+Alternatively, you can use the import.py file to execute a python script for import via AppLink. Simply place the import.py file in the same folder as import.txt. After importing, both files will be deleted. If import.txt is empty, import.py will simply be executed and the standard import dialog from AppLink to 3DCoat will not open, allowing you to perform silent imports or custom dialogs.
 
 You may place additional commands into import.txt. There is one useful example. Say, you need to run some script after importing the object. In this case write after **\[ppp\]** or **\[export_preset ...\]**
 
-**\[script text_of_script\]**
+**\[python text_of_python_script\]**
 
 or
+***!! The "pythonfile" property is supported since 3DCoat version 2025.12 !!***
+**\[pythonfile path_to_script_file\]**
+The pythonfile property should point to the python script corresponding to 3DCoat,
 
-**\[scriptfile path_to_script_file\]**
+Older versions of 3DCoat used a "script" command that was executed using Angel Script, but as of version 2025.12 the "script" property and Angel Script have been deprecated, it will still work but will automatically be converted to Python for execution, we recommend using "python" instead.
 
-In the last case file referred as **path_to_script_file** should contain **main(){...}**
+***!! The "scriptfile" property is not supported since 3DCoat version 2025.12 !!***
+Older versions of 3DCoat used a "scriptfile" command that pointed to an Angel Script file, but as of version 2025.12 the "scriptfile" property and Angel Script are deprecated and will not work.
+
+
 
 Example of useful script:
 For example, after importing object into 3D-Coat you need to pass textures additionally. In this case write
 
-**\[script ImportTexture("$LOADTEX","Uv_Set_Name", “Path_ToTexture”);\]**
+**\[python ImportTexture("$LOADTEX","Uv_Set_Name", “Path_ToTexture”)\]**
 
 **"$LOADTEX"** is identifier from Textures->Import->Color/Albedo map. You may take any identifier from **Import/Export menu**. Use **MMB+RM**B to extract identifier (it always starts from **$** sign).
 
@@ -125,20 +133,20 @@ In **Gloss/Specular** color workflow:
 
 If you need to switch to specific texturing workflow, use any of commands before textures importing commands
 
-**\[script cmd(“$GlossSpecular”);\]**
+**\[python cmd(“$GlossSpecular”)\]**
 //Textures->Textures Export/Import workflow->Gloss/Color Specular
 
-**\[script cmd(“$GlossMetallness”);\]**
+**\[python cmd(“$GlossMetallness”)\]**
 //Textures->Textures Export/Import workflow->Gloss/Metalness
 
-**\[script cmd(“$RoughnessMetallness”);\]**
+**\[python cmd(“$RoughnessMetallness”)\]**
 //Textures->Textures Export/Import workflow->Roughness/Metalness
 
 Let us continue describing other parameters of **ImportTexture**
 
 **Uv_Set_Name** is name of Uv-set where you want to import texture. Passing **“any”** means first UV-set of the model.
 
-**Path_ToTexture** is full path to texture. Generally relative paths allowed as well, but path should be relative to MyDocyuments/3D-CoatVxx/. **Important!** It is better to pass all paths with **“/”** not with **“\\”**. You may use **“\\”** but you should pass **“\\\\”** instead of **“\\”** due to **c++ syntax** used for scripts.
+**Path_ToTexture** is full path to texture. Generally relative paths allowed as well, but path should be relative to MyDocyuments/3D-CoatVxx/. **Important!** It is better to pass all paths with **“/”** not with **“\\”**. You may use **“\\”** but you should pass **“\\\\”** instead of **“\\”** due to **python syntax** used for scripts.
 This is just example, you may use any script commands there.
 There are several additional commands that you may use in import.txt, the list is in **Application 6.**
 
