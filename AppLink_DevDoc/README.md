@@ -89,7 +89,9 @@ You may place additional commands into import.txt. There is one useful example. 
 **\[python text_of_python_script\]**
 
 or
+
 ***!! The "pythonfile" property is supported since 3DCoat version 2025.12 !!***
+
 **\[pythonfile path_to_script_file\]**
 The pythonfile property should point to the python script corresponding to 3DCoat,
 
