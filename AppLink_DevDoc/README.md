@@ -353,50 +353,27 @@ There is set of possible options and values:
 | **_Option_** | **_Value_** | **_Works for export constructor?_** |
 | --- | --- | --- |
 | ExportColor | 0 or 1 | No  |
-| --- | --- | --- |
 | ExportSpecular | 0 or 1 | No  |
-| --- | --- | --- |
 | ExportNormalmap | 0 or 1 | No  |
-| --- | --- | --- |
 | ExportDispl | 0 or 1 | No  |
-| --- | --- | --- |
 | PickSourcePositions | 0 or 1 | **Yes** |
-| --- | --- | --- |
 | ExportSpecularColor | 0 or 1 | No  |
-| --- | --- | --- |
 | ExportEmissive | 0 or 1 | No  |
-| --- | --- | --- |
 | ExportEmissivePower | 0 or 1 | No  |
-| --- | --- | --- |
 | ExportMetallness | 0 or 1 | No  |
-| --- | --- | --- |
 | ExportRoughness | 0 or 1 | No  |
-| --- | --- | --- |
 | ExportAO | 0 or 1 | No  |
-| --- | --- | --- |
 | PickDepthFromLayer0 | 0 or 1 | No  |
-| --- | --- | --- |
 | CoarseMesh | 0 or 1 | No  |
-| --- | --- | --- |
 | DisplDepth | 8 bits, 16 bits, 32 bits | No  |
-| --- | --- | --- |
 | DisplNorm | GREYBASED, ZEROBASED, ZEROBASED_NORM, ZEROBASED_ABS | No  |
-| --- | --- | --- |
 | DisplExt | BMP,TGA,PNG for 8 bit displacement<br><br>TIF for 16 bit displacament<br><br>TIFF, EXR for 32 bit displacement | No  |
-| --- | --- | --- |
 | ColorFileExtension | TGA, BMP, PNG, JPG**, TIF, TIFF, EXR, PSD** | No  |
-| --- | --- | --- |
 | SpecNormExtension | TGA, BMP, PNG, JPG**, TIF, TIFF, EXR, PSD (only specular extension will be assigned with this command, normalmap is TGA by default unless specified directly)** | No  |
-| --- | --- | --- |
 | **SpecExtension** | **TGA, BMP, PNG, JPG, TIF, TIFF, EXR,PSD** | No  |
-| --- | --- | --- |
 | **NormExtension** | **TGA, BMP, PNG, JPG, TIF, TIFF, EXR** | No  |
-| --- | --- | --- |
 | ExportResolution | LOW-POLY, MID-POLY | **Yes** |
-| --- | --- | --- |
 | **\[field field_id=value\]** | **Set field value in export dialog. This command generally replaces all of previous commandes. You may set any field in export dialog. Example**<br><br>**\[field $ExportOpt::UseExportConstructor = true\]**<br><br>**To get field_id click LMB+RMB or MMB+RMB over the required field in export dialog.** | **Yes** |
-| --- | --- | --- |
 | **\[click control_id\]** | **Click on any control in export dialog. Example - choose Unity preset -**<br><br>**\[click $COMBOBOX_Unity (Specular)\]**<br><br>**To get field_id click LMB+RMB or MMB+RMB over the required field in export dialog.** | **Yes** |
-| --- | --- | --- |
 
 **Generally it is much better to operate using export presets, way through “Options” is deprecated.**
