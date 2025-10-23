@@ -1,9 +1,7 @@
 # 3D-Coat AppLinks specifications
 
-**6 april 2018**
-
 **Applicable to 4.8.15 and later**
-
+***Some features, such as Python support, may be available in newer versions; these features will be commented on separately next to their description.***
 AppLinks are intended to simplify data exchange between 3D-Coat and other applications. AppLink is a plugin written for the specific application.
 
 ## 1\. The exchange path.
@@ -79,6 +77,9 @@ exchange_path/returnpath.obj
  * Drop mesh in 3D-Coat for Auto-retopology **\[autopo\]**
 
 The last line **_\[export_preset Blender Cycles\]_** means that you will choose  **Blender Cycles** preset in export dialog when user will export. Generally you may refer to any preset, even to your own.
+
+***import.py is supported since 3DCoat version 2025.12 or later.***
+To execute Python scripts for import via AppLink, simply place the import.py file in the same folder as import.txt. After importing, both files will be deleted. If import.txt is empty, import.py will simply be executed and the standard import dialog from AppLink to 3DCoat will not open, allowing you to perform silent imports or custom dialogs.
 
 You may place additional commands into import.txt. There is one useful example. Say, you need to run some script after importing the object. In this case write after **\[ppp\]** or **\[export_preset ...\]**
 
