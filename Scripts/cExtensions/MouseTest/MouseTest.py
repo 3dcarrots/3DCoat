@@ -4,16 +4,39 @@ import coat
 import CMD
 import cCore
 
+from cTemplates.Structs import *
+import cTemplates.MainMenu.View
 
-# create our extension class; in order for it to work correctly, it must be inherited from cCore.cExtension
+
+# A variable that determines whether to show or hide information about the mouse and cursor.
+ShowMouseInfo = True
+
+# The function that will be called when a menu item is clicked. We use the d_slot dicatorator to get a command that calls it for the coat.menu_item function.
+@d_slot
+def ToggleMouseInfo():
+    global ShowMouseInfo
+    ShowMouseInfo = not ShowMouseInfo
+
+# Create a separate section for our extension in the View menu.
+@d_menu_section(cTemplates.MainMenu.View.CreateViewMenu)
+def MouseInfoSection():
+    # Add a menu item to this section that will enable and disable information about the mouse and cursor.
+    coat.menu_item(ToggleMouseInfo.UICmd()) 
+
+
+#############################################################################################################
+# Create our extension class; in order for it to work correctly, it must be inherited from cCore.cExtension #
 class MouseTestExtension(cCore.cExtension):
 
     def __init__(self):
         cCore.cExtension.__init__(self)        
 
-    # rewrite the inherited "postrender" function, which will be called every time after rendering to display our information on the screen.
+    # Rewrite the inherited "postrender" function, which will be called every time after rendering to display our information on the screen.
     def postrender(self):
-
+        # Display information only if ShowMouseInfo is True
+        if not ShowMouseInfo:
+            return
+        
         # display information about the mouse and cursor as text on the viewport.
         coat.RenderUtils.draw_text(300, 200, f"Cursor pos: {coat.io.cursorPos().x}, {coat.io.cursorPos().y}") #cursor pos (variant 1)
         coat.RenderUtils.draw_text(300, 230, f"Cursor pos: {CMD.GetMouseX()}, {CMD.GetMouseY()}")#cursor pos (variant 2)
