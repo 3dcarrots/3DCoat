@@ -2,7 +2,8 @@
 # Place this file in Documents\3DCoat\UserPrefs\Scripts\cExtensions\MouseTest\MouseTest.py so that it appears in 3DCoat's list of extensions in the "Extensions" window.
 import coat
 import CMD
-import cCore
+import coat.cCore
+import coat.cRender
 
 from cTemplates.Structs import *
 import cTemplates.MainMenu.View
@@ -25,11 +26,11 @@ def MouseInfoSection():
 
 
 #############################################################################################################
-# Create our extension class; in order for it to work correctly, it must be inherited from cCore.cExtension #
-class MouseTestExtension(cCore.cExtension):
+# Create our extension class; in order for it to work correctly, it must be inherited from coat.cCore.cExtension #
+class MouseTestExtension(coat.cCore.cExtension):
 
     def __init__(self):
-        cCore.cExtension.__init__(self)        
+        coat.cCore.cExtension.__init__(self)        
 
     # Rewrite the inherited "postrender" function, which will be called every time after rendering to display our information on the screen.
     def postrender(self):
@@ -38,34 +39,34 @@ class MouseTestExtension(cCore.cExtension):
             return
         
         # display information about the mouse and cursor as text on the viewport.
-        coat.RenderUtils.draw_text(300, 200, f"Cursor pos: {coat.io.cursorPos().x}, {coat.io.cursorPos().y}") #cursor pos (variant 1)
-        coat.RenderUtils.draw_text(300, 230, f"Cursor pos: {CMD.GetMouseX()}, {CMD.GetMouseY()}")#cursor pos (variant 2)
+        coat.cRender.RenderUtils.draw_text(300, 200, f"Cursor pos: {coat.io.cursorPos().x}, {coat.io.cursorPos().y}") #cursor pos (variant 1)
+        coat.cRender.RenderUtils.draw_text(300, 230, f"Cursor pos: {CMD.GetMouseX()}, {CMD.GetMouseY()}")#cursor pos (variant 2)
 
-        coat.RenderUtils.draw_text(300, 290, f"Left mouse button: {CMD.LMBPressed()}")
-        coat.RenderUtils.draw_text(300, 320, f"Middle mouse button: {CMD.MMBPressed()}")
-        coat.RenderUtils.draw_text(300, 350, f"Right mouse button: {CMD.RMBPressed()}")
-        coat.RenderUtils.draw_text(300, 380, f"Wheel pressed: {CMD.WheelPressed()}")
+        coat.cRender.RenderUtils.draw_text(300, 290, f"Left mouse button: {CMD.LMBPressed()}")
+        coat.cRender.RenderUtils.draw_text(300, 320, f"Middle mouse button: {CMD.MMBPressed()}")
+        coat.cRender.RenderUtils.draw_text(300, 350, f"Right mouse button: {CMD.RMBPressed()}")
+        coat.cRender.RenderUtils.draw_text(300, 380, f"Wheel pressed: {CMD.WheelPressed()}")
 
-        coat.RenderUtils.draw_text(300, 410, f"Screen space pen radius: {CMD.GetVisiblePenRadius()}")
+        coat.cRender.RenderUtils.draw_text(300, 410, f"Screen space pen radius: {CMD.GetVisiblePenRadius()}")
 
-        coat.RenderUtils.draw_text(300, 440, f"Picks Object: {CMD.ScreenRayPicksObject(CMD.GetMouseX(), CMD.GetMouseY())}")
+        coat.cRender.RenderUtils.draw_text(300, 440, f"Picks Object: {CMD.ScreenRayPicksObject(CMD.GetMouseX(), CMD.GetMouseY())}")
 
         # If the cursor is hovering over an object, we draw a sphere on the object and display the 3D coordinates of the point the cursor is hovering over.
         if CMD.ScreenRayPicksObject(CMD.GetMouseX(), CMD.GetMouseY()):
 
             # Find out the 3D coordinates of the point the cursor is hovering over.
-            pickPos: coat.vec3 = coat.RenderUtils.PickPointSpacePos()
+            pickPos: coat.vec3 = coat.cRender.RenderUtils.PickPointSpacePos()
 
             # draw a sphere
-            coat.RenderUtils.drawCoolSphere(pickPos, 10.0, int("FF00FFFF", 16))
+            coat.cRender.RenderUtils.drawCoolSphere(pickPos, 10.0, int("FF00FFFF", 16))
 
             # Displaying 3D coordinates as text in the viewport
             mx = CMD.GetMouseX()
             my = CMD.GetMouseY()
-            coat.RenderUtils.draw_text(mx, my, " 3D Coord")
-            coat.RenderUtils.draw_text(mx, my+30, f" X: {pickPos.x}")
-            coat.RenderUtils.draw_text(mx, my+60, f" Y: {pickPos.y}")
-            coat.RenderUtils.draw_text(mx, my+90, f" Z: {pickPos.z}")
+            coat.cRender.RenderUtils.draw_text(mx, my, " 3D Coord")
+            coat.cRender.RenderUtils.draw_text(mx, my+30, f" X: {pickPos.x}")
+            coat.cRender.RenderUtils.draw_text(mx, my+60, f" Y: {pickPos.y}")
+            coat.cRender.RenderUtils.draw_text(mx, my+90, f" Z: {pickPos.z}")
 
 
 
