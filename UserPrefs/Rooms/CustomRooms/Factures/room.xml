@@ -1,0 +1,13 @@
+<CustomRoom>
+ <Order>6</Order>
+ <RoomName>Factures</RoomName>
+ <ToolsList></ToolsList>
+ <HiddenElements></HiddenElements>
+ <UseScriptsForMenu>false</UseScriptsForMenu>
+ <UseScriptsForToolset>true</UseScriptsForToolset>
+ <UseScriptsForNavigation>false</UseScriptsForNavigation>
+ <UseScriptsForCurves>false</UseScriptsForCurves>
+ <LockName>false</LockName>
+ <IsDefault>true</IsDefault>
+ <PerformLocalization>false</PerformLocalization>
+</CustomRoom>

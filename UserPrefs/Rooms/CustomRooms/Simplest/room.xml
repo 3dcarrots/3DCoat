@@ -1,0 +1,29 @@
+<CustomRoom>
+ <Order>7</Order>
+ <RoomName>Simplest</RoomName>
+ <ToolsList></ToolsList>
+ <HiddenElements>
+  <_str>SweptSurface</_str>
+  <_str>SurfaceSwept2</_str>
+  <_str>SurfaceSwept2Gener</_str>
+  <_str>SurfaceSweptNGener</_str>
+  <_str>CreateSweptSurface</_str>
+  <_str>CreateSweptSurface2Guide</_str>
+  <_str>CreateSweptSurface2Geners</_str>
+  <_str>CreateSweptSurfaceNGeners</_str>
+  <_str>SelectInProjection</_str>
+  <_str>SelectIn3D</_str>
+  <_str>CreateFromSelectionEdge</_str>
+  <_str>EditPressuerProfile</_str>
+  <_str>RunBrushAlongProjection</_str>
+  <_str>RunBrushAlongCurve</_str>
+  <_str>SM_PointsExtrude</_str>
+ </HiddenElements>
+ <UseScriptsForMenu>true</UseScriptsForMenu>
+ <UseScriptsForToolset>true</UseScriptsForToolset>
+ <UseScriptsForNavigation>false</UseScriptsForNavigation>
+ <UseScriptsForCurves>true</UseScriptsForCurves>
+ <LockName>true</LockName>
+ <IsDefault>true</IsDefault>
+ <PerformLocalization>false</PerformLocalization>
+</CustomRoom>

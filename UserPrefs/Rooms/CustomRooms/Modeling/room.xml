@@ -1,0 +1,13 @@
+<CustomRoom>
+ <Order>8</Order>
+ <RoomName>Modeling</RoomName>
+ <ToolsList></ToolsList>
+ <HiddenElements></HiddenElements>
+ <UseScriptsForMenu>false</UseScriptsForMenu>
+ <UseScriptsForToolset>true</UseScriptsForToolset>
+ <UseScriptsForNavigation>false</UseScriptsForNavigation>
+ <UseScriptsForCurves>false</UseScriptsForCurves>
+ <LockName>false</LockName>
+ <IsDefault>true</IsDefault>
+ <PerformLocalization>false</PerformLocalization>
+</CustomRoom>

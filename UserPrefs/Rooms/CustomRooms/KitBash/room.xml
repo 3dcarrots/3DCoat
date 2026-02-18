@@ -1,0 +1,15 @@
+<CustomRoom>
+ <Order>9</Order>
+ <RoomName>KitBash</RoomName>
+ <ToolsList></ToolsList>
+ <HiddenElements></HiddenElements>
+ <UseScriptsForMenu>true</UseScriptsForMenu>
+ <UseScriptsForToolset>true</UseScriptsForToolset>
+ <UseScriptsForNavigation>true</UseScriptsForNavigation>
+ <UseScriptsForCurves>true</UseScriptsForCurves>
+ <LockName>false</LockName>
+ <IsDefault>true</IsDefault>
+ <PerformLocalization>false</PerformLocalization>
+ <MandatoryRenderPaintObjects>false</MandatoryRenderPaintObjects>
+ <MandatoryRenderRetopoObjects>true</MandatoryRenderRetopoObjects>
+</CustomRoom>

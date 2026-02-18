@@ -1,0 +1,19 @@
+<CustomRoom>
+	<Order>12</Order>
+	<RoomName>Nurbs</RoomName>
+	<ToolsList></ToolsList>
+	<HiddenElements></HiddenElements>
+	<UseScriptsForMenu>false</UseScriptsForMenu>
+	<UseScriptsForToolset>true</UseScriptsForToolset>
+	<UseScriptsForNavigation>false</UseScriptsForNavigation>
+	<UseScriptsForCurves>false</UseScriptsForCurves>
+	<LockName>true</LockName>
+	<IsDefault>false</IsDefault>
+	<PerformLocalization>false</PerformLocalization>
+	<DragNDropped></DragNDropped>
+	<ToolsPriory>
+		<_str>[extension]RtFreeRotating</_str>
+	</ToolsPriory>
+	<MandatoryRenderPaintObjects>false</MandatoryRenderPaintObjects>
+	<MandatoryRenderRetopoObjects>false</MandatoryRenderRetopoObjects>
+</CustomRoom>

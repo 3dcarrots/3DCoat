@@ -1,0 +1,17 @@
+<CustomRoom>
+	<Order>10</Order>
+	<RoomName>Photogrammetry</RoomName>
+	<ToolsList></ToolsList>
+	<HiddenElements></HiddenElements>
+	<UseScriptsForMenu>false</UseScriptsForMenu>
+	<UseScriptsForToolset>true</UseScriptsForToolset>
+	<UseScriptsForNavigation>false</UseScriptsForNavigation>
+	<UseScriptsForCurves>false</UseScriptsForCurves>
+	<LockName>false</LockName>
+	<IsDefault>true</IsDefault>
+	<PerformLocalization>false</PerformLocalization>
+	<DragNDropped></DragNDropped>
+	<ToolsPriory></ToolsPriory>
+	<MandatoryRenderPaintObjects>false</MandatoryRenderPaintObjects>
+	<MandatoryRenderRetopoObjects>false</MandatoryRenderRetopoObjects>
+</CustomRoom>

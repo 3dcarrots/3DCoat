@@ -1,0 +1,13 @@
+<CustomRoom>
+ <Order>0</Order>
+ <RoomName>Paint</RoomName>
+ <ToolsList></ToolsList>
+ <HiddenElements></HiddenElements>
+ <UseScriptsForMenu>false</UseScriptsForMenu>
+ <UseScriptsForToolset>true</UseScriptsForToolset>
+ <UseScriptsForNavigation>false</UseScriptsForNavigation>
+ <UseScriptsForCurves>false</UseScriptsForCurves>
+ <LockName>true</LockName>
+ <IsDefault>true</IsDefault>
+ <PerformLocalization>true</PerformLocalization>
+</CustomRoom>
