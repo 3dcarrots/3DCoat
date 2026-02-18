@@ -1,0 +1,5 @@
+from __future__ import annotations
+from Coat_CPP import BoolOpType, start_main_menu, menu_item, menu_info, menu_submenu, menu_exit, menu_separator, menu_hotkey, menu_no_hotkey, iconic_submenu, is_new_scene, is_steam_app, is_medical, is_ppp, is_proxy, is_multires, is_surface, IsInRoom, RoomExists, CheckIfExists, UseRecordScript, is_mv, is_ptex, show_rmb_panel, show_space_panel, gltf_support, tex_approach, menu_insert_extensions, extensions_main_menu, insert_extensions, set_space_panel_columns_count, SetAutoSnapDefaults, menu_property, tools_section, tools_item, page_suffix, default_tool, IsDebug, start_rmb_panel, menu_sort, IsRecordScript, IsInTool, voxtree_item_picked, retopo_object_picked, empty_space_picked, voxtree_object_picked, GetCurrentToolSubmode, tools_comment, doc_mode, PureIconic, lock_ui_changes, ue5_support, run_extension, Mesh, Image, symm, SceneElement, Volume, settings, Scene, RenderRoom, Curve, SphericalCollision, ui, Camera, dialog, resource, io, utils, uv, ClusterScale, Model, logger
+
+_all_names = list(globals().keys())
+__all__ = [name for name in _all_names if not name.startswith('_')]

@@ -1,0 +1,193 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="docs.css"/>
+    <script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    <link rel="stylesheet" href="../IDE/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="../IDE/codemirror/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="../IDE/codemirror/theme/mbo.css">
+    <link rel="stylesheet" href="../IDE/codemirror/theme/ambiance.css">
+    <link rel="stylesheet" href="../IDE/codemirror/addon/dialog/dialog.css">
+    <link rel="stylesheet" href="../IDE/codemirror/addon/search/matchesonscrollbar.css">
+    <link rel="stylesheet" href="../IDE/codemirror/addon/fold/foldgutter.css" />
+    <script src="../IDE/codemirror/lib/codemirror.js"></script>
+    <script src="../IDE/codemirror/addon/runmode/runmode.js"></script>
+    <script src="../IDE/codemirror/addon/runmode/colorize.js"></script>
+    <script src="../IDE/codemirror/mode/python/python.js"></script>    
+    <style>
+        body{
+            background-color: #111;
+            width: 111.111% !important;
+            height: 111.111% !important;
+
+            -ms-transform: scale(0.9);
+            -moz-transform: scale(0.9);
+            -o-transform: scale(0.9);
+            -webkit-transform: scale(0.9);
+            transform: scale(0.9);
+
+            -ms-transform-origin: 0 0;
+            -moz-transform-origin: 0 0;
+            -o-transform-origin: 0 0;
+            -webkit-transform-origin: 0 0;
+            transform-origin: 0 0;
+
+            border: 0;
+        }
+        /* CSS */
+        .button {
+            background-color: #222;
+            border: 1px solid #282828;
+            border-radius: 4px;
+            padding: 4px;
+            color: #867a7a;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            transition-duration: .2s;
+            transition-property: background-color, border-color, color, fill, stroke;
+            transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+        }
+
+        .button:hover {
+            background-color: #374151;
+        }
+
+        .button:focus {
+            box-shadow: none;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+        }
+        pre {
+            border-left: #222 1px;
+        }
+        .intOf {
+            font-style: italic;
+            color: #616e86;
+        }
+        .desc {
+            font-style: italic;
+            color: #96a4bb;
+        }
+        td {
+            vertical-align: top;
+            border-top: 0px none;
+            border-bottom: 1px solid #000;
+            padding-left: 5px;
+        }
+        .evenRow {
+            border-top: 1px solid #000;
+            background-color: #101013;
+            opacity: 90%;
+        }
+        .oddRow {
+            background-color: #19191C;
+            border-top: 1px solid  #222;
+            opacity: 90%;
+        }
+
+        .evenRow:hover {background-color: #28282A; border-radius: 5px; border: 1px #343; color: #ABC; opacity: 100%;}
+        .oddRow:hover {background-color: #28282A; border-radius: 5px; border: 1px #343; color: #ABC; opacity: 100%;}
+
+        .selectedMember {
+            background-color: #28282A; border-radius: 5px; border: 1px #343; color: #ABC; opacity: 100%;
+
+        }
+    </style>
+    <script type="text/javascript">
+        var SelectedMember = -1;
+        var lastSelectedMember = -1;
+        const mouseenterEvent = new Event('mouseenter');
+        function NextMember(){
+            SelectedMember++;
+            memb = document.getElementById("member"+SelectedMember.toString());
+            if(memb){
+                memb.className += " selectedMember";
+                memb.dispatchEvent(mouseenterEvent);
+                memb.focus();
+            } else SelectedMember = 0;
+            lastMemb = document.getElementById("member"+lastSelectedMember.toString());
+            if(lastMemb){
+                lastMemb.className = lastMemb.className.replace(" selectedMember", "");
+            }
+            lastSelectedMember = SelectedMember;
+        }
+
+        function PreviousMember(){
+            SelectedMember--;
+            if(SelectedMember < 0) SelectedMember = 0;
+            memb = document.getElementById("member"+SelectedMember.toString());
+            if(memb){
+                memb.className += " selectedMember";
+                memb.dispatchEvent(mouseenterEvent);
+                memb.focus();
+            }
+            lastMemb = document.getElementById("member"+lastSelectedMember.toString());
+            if(lastMemb){
+                lastMemb.className = lastMemb.className.replace(" selectedMember", "");
+            }
+            lastSelectedMember = SelectedMember;
+        }
+
+        function AutoComplete(){
+            memb = document.getElementById("member"+SelectedMember.toString());
+            if(memb){
+                memb.click();
+            }
+        }
+
+
+        var isBlock = /^(p|li|div|h\\d|pre|blockquote|td)$/;
+        function textContent(node, out) {
+            if (node.nodeType == 3) return out.push(node.nodeValue);
+            for (var ch = node.firstChild; ch; ch = ch.nextSibling) {
+                textContent(ch, out);
+                if (isBlock.test(node.nodeType)) out.push("\n");
+            }
+        }	
+        function ShowData(aData){	
+            var innerContent = document.getElementById("data_list");
+			let encodedData = aData.replaceAll("<{&apos;}>", "'").replaceAll("<{<br />}>", "\n");
+            innerContent.innerHTML = encodedData;
+
+
+                    // code syntax highlighting
+                var node = document.getElementsByClassName('code');
+                for(let i = 0; i < node.length; i++){
+                    //var mode = node.getAttribute("data-lang") || defaultMode;
+                    var mode = "python";
+
+                    var text = [];
+                    textContent(node[i], text);
+                    node[i].innerHTML = "";
+                    CodeMirror.runMode(text.join(""), mode, node[i]);
+
+                    node[i].className += " cm-s-ambiance";	
+                }	
+
+        }
+
+
+        window.onload = function() {
+            new QWebChannel(qt.webChannelTransport, function (channel) {
+                window.qWebChannel = channel;
+                window.app = channel.objects;
+                window.py_console = channel.objects.py_console;
+                //console.log(py_console);
+                //py_console.textChanged.connect(function(message) {
+                    //  document.getElementById("output").innerHTML = message;
+                // });
+    
+            });
+        }
+    </script>  
+
+</head>
+
+<body>
+    <div id="data_list" style="vertical-align: top; width:100%">
+
+    </div>
+</body>
+
+</html>

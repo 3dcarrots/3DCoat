@@ -1,0 +1,6 @@
+HelloWorld.py
+insert_in_menu.py
+insert_in_toolset.py
+ui_command.py
+dialogs.py
+resources_test.py

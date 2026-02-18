@@ -1,0 +1,150 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="docs.css"/>
+    <script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
+
+    <link rel="stylesheet" href="../IDE/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="../IDE/codemirror/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="../IDE/codemirror/theme/mbo.css">
+    <link rel="stylesheet" href="../IDE/codemirror/theme/ambiance.css">
+    <link rel="stylesheet" href="../IDE/codemirror/addon/dialog/dialog.css">
+    <link rel="stylesheet" href="../IDE/codemirror/addon/search/matchesonscrollbar.css">
+    <link rel="stylesheet" href="../IDE/codemirror/addon/fold/foldgutter.css" />
+    <script src="../IDE/codemirror/lib/codemirror.js"></script>
+    <script src="../IDE/codemirror/addon/runmode/runmode.js"></script>
+    <script src="../IDE/codemirror/addon/runmode/colorize.js"></script>
+    <script src="../IDE/codemirror/mode/python/python.js"></script>
+    
+    <style>
+        body{
+            background-color: #111;
+            border: 0;
+            font-size: 12px;
+        }
+        /* CSS */
+        .button {
+            background-color: #222;
+            border: 1px solid #282828;
+            border-radius: 4px;
+            padding: 4px;
+            color: #FFFFFF;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            transition-duration: .2s;
+            transition-property: background-color, border-color, color, fill, stroke;
+            transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+        }
+
+        .button:hover {
+            background-color: #374151;
+        }
+
+        .button:focus {
+            box-shadow: none;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+        }
+    </style>
+<style>
+    body {
+        font-family: system-ui;
+        
+    }
+    
+    big {
+        font-size: 14px;
+    }
+    
+    table {
+        border: 2px solid #151515;
+        border-left: 2px solid #222;
+        padding-left: 4px;
+        border-radius: 5px;
+    }
+    
+    table td{
+        background-color: #101012;
+        padding-left: 4px;
+        border: 0px none;
+    }
+    table table td{
+        background-color: #151517;
+    
+    }
+    table table table td{
+        background-color: #202024;
+    
+    }
+    hr {
+            display: block;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            margin-left: auto;
+            margin-right: auto;
+            border-style: inset 1px #333;
+        }       
+    </style>    
+    <script type="text/javascript">
+        var isBlock = /^(p|li|div|h\\d|pre|blockquote|td)$/;
+        function textContent(node, out) {
+            if (node.nodeType == 3) return out.push(node.nodeValue);
+            for (var ch = node.firstChild; ch; ch = ch.nextSibling) {
+                textContent(ch, out);
+                if (isBlock.test(node.nodeType)) out.push("\n");
+            }
+        }	
+        function ShowData(aData){	
+            var innerContent = document.getElementById("data_list");
+			let encodedData = aData.replaceAll("<{&apos;}>", "'").replaceAll("<{<br />}>", "\n");
+            innerContent.innerHTML = encodedData;
+
+			// var mode = "python";
+
+			// var text = [];
+			// textContent(innerContent, text);
+			// innerContent.innerHTML = "";
+			// CodeMirror.runMode(text.join(""), mode, innerContent);
+
+            window.scrollTo(0, 0);
+
+            var anchors = document.getElementsByTagName("a");
+            for (var i = 0; i < anchors.length; i++) {
+                
+                if(anchors[i].getAttribute("href").charAt(0) != '#'){
+                   anchors[i].onclick = function() {return false;};
+                   anchors[i].setAttribute("href", "#");
+                }
+                if(anchors[i].href.charAt(0) != '#'){
+                   anchors[i].onclick = function() {return false;};
+                   anchors[i].href = "#";
+                }
+            }            
+
+        }
+
+
+        window.onload = function() {
+            new QWebChannel(qt.webChannelTransport, function (channel) {
+                window.qWebChannel = channel;
+                window.app = channel.objects;
+                window.py_console = channel.objects.py_console;
+                //console.log(py_console);
+                //py_console.textChanged.connect(function(message) {
+                    //  document.getElementById("output").innerHTML = message;
+                // });
+    
+            });
+        }
+    </script>  
+
+</head>
+
+<body>
+    <div id="data_list" class="cm-s-ambiance" style="vertical-align: top; padding: 10px;">
+    </div>
+</body>
+
+</html>

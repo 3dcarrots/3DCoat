@@ -1,0 +1,295 @@
+<html  oncontextmenu="return false;" style="width:100%; height:100%; overflow: hidden; padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; background-color: #222;">
+<head>
+<title>CML Edit</title>
+<meta charset="utf-8"/>
+<link rel="stylesheet" href="../IDE/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="../IDE/codemirror/addon/hint/show-hint.css">
+<link rel="stylesheet" href="../IDE/codemirror/theme/mbo.css">
+<link rel="stylesheet" href="../IDE/codemirror/theme/ambiance.css">
+<link rel="stylesheet" href="../IDE/codemirror/addon/dialog/dialog.css">
+<link rel="stylesheet" href="../IDE/codemirror/addon/search/matchesonscrollbar.css">
+<link rel="stylesheet" href="../IDE/codemirror/addon/fold/foldgutter.css" />
+<script src="../IDE/codemirror/lib/codemirror.js"></script>
+<script src="../IDE/codemirror/addon/edit/matchbrackets.js"></script>
+<script src="../IDE/codemirror/mode/clike/clike.js"></script>
+<script src="../IDE/codemirror/mode/python/python.js"></script>
+<script src="../IDE/codemirror/addon/hint/show-hint.js"></script>
+<script src="CMLEditHint.js" id=anyword></script>
+<script src="../IDE/codemirror/mode/markdown/markdown.js"></script>
+<script src="../IDE/codemirror/addon/dialog/dialog.js"></script>
+<script src="../IDE/codemirror/addon/search/searchcursor.js"></script>
+<script src="../IDE/codemirror/addon/search/search.js"></script>
+<script src="../IDE/codemirror/addon/scroll/annotatescrollbar.js"></script>
+<script src="../IDE/codemirror/addon/search/matchesonscrollbar.js"></script>
+<script src="../IDE/codemirror/addon/search/jump-to-line.js"></script>
+<script src="../IDE/codemirror/addon/fold/foldcode.js"></script>
+<script src="../IDE/codemirror/addon/fold/foldgutter.js"></script>
+<script src="../IDE/codemirror/addon/fold/brace-fold.js"></script>
+<script src="../IDE/codemirror/addon/fold/xml-fold.js"></script>
+<script src="../IDE/codemirror/addon/fold/indent-fold.js"></script>
+<script src="../IDE/codemirror/addon/fold/markdown-fold.js"></script>
+<script src="../IDE/codemirror/addon/fold/comment-fold.js"></script>
+<script src="../IDE/codemirror/addon/selection/active-line.js"></script>
+<script src="../IDE/codemirror/addon/search/match-highlighter.js"></script>
+<link rel="stylesheet" href="../IDE/codemirror/addon/scroll/simplescrollbars.css">
+<script src="../IDE/codemirror/addon/scroll/simplescrollbars.js"></script>
+<script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<style>
+.CodeMirror{
+	height: 100%;
+	width: 100%;
+}
+      .CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+      .CodeMirror-focused .cm-matchhighlight {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVQI12NgYGBgkKzc8x9CMDAwAAAmhwSbidEoSQAAAABJRU5ErkJggg==);
+        background-position: bottom;
+        background-repeat: repeat-x;
+      }
+      .cm-matchhighlight {background-color: #444}
+      .CodeMirror-selection-highlight-scrollbar {background-color: #888}
+      .lint-error {font-family: arial; font-size: 70%; background: #ffa; color: #a00; padding: 2px 5px 3px; }
+      .lint-error-icon {color: white; background-color: red; font-weight: bold; border-radius: 50%; padding: 0 3px; margin-right: 7px;}	  
+</style>
+</head>
+<body oncontextmenu="return false;" style="width:100%; height:100%; overflow: hidden; padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; background-color: #222;">
+
+  <script type="text/javascript">
+    var HasCMLSource = false;
+      window.onload = function() {
+          new QWebChannel(qt.webChannelTransport, function (channel) {
+            window.qWebChannel = channel;
+            window.app = channel.objects;
+            window.py_console = channel.objects.py_console;
+              //console.log(py_console);
+              py_console.textChanged.connect(function(message) {
+                //  document.getElementById("output").innerHTML = message;
+              });
+  
+          });
+      }
+  </script>  
+<textarea id="code" name="code">
+  
+</textarea>
+<div id="output" style="display: block; position: absolute; top: 40px; right:10px; color:#777; cursor: pointer"></div>
+
+<script>
+      // CodeMirror.commands.autocomplete = function(cm) {
+      //   cm.showHint({hint: CodeMirror.hint.anyword});
+      // }
+	  
+	  
+let windowObjectReferenceHelp;
+let windowFeaturesHelp = "popup=1,width=512,height=512";	  
+function openHelp(){
+		if(windowObjectReferenceHelp != null) windowObjectReferenceHelp.close();
+		windowObjectReferenceHelp = window.open("help.html", 'HelpWindow', windowFeaturesHelp);
+}	  
+	  
+let windowObjectReference;
+let windowFeatures = "popup=1,width=512,height=512";	  
+function ShowGLSLDoc(cm){
+//	document.getElementById('docButton').style.display = 'none'; document.getElementById('DocPanel').style.display = 'table-cell'; 	  
+	
+	var A1 = cm.getCursor().line;
+	var A2 = cm.getCursor().ch;
+
+	var B1 = cm.findWordAt({line: A1, ch: A2}).anchor.ch;
+	var B2 = cm.findWordAt({line: A1, ch: A2}).head.ch;
+
+	var cWord = cm.getRange({line: A1,ch: B1}, {line: A1,ch: B2});
+	if(windowObjectReference != null){
+		windowObjectReference.close();
+		windowObjectReference = null;
+	}
+//	if(windowObjectReference != null) windowObjectReference.focus();
+	 py_console.ShowCMLHelp(cWord);
+//	windowObjectReference = window.open("glslDoc/"+cWord+".html", 'DocWindow', windowFeatures);
+//	document.getElementById('DocFrame').src = "glslDoc/"+cWord+".html";
+}
+	  
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+  lineNumbers: true,
+  matchBrackets: true,
+  foldGutter: true,
+  lineWrapping: true,
+  styleActiveLine: true,
+  highlightSelectionMatches: {showToken: /\w/, annotateScrollbar: true},
+  scrollbarStyle: "simple",
+  gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+  theme: "ambiance",	
+  extraKeys: {"Ctrl-Space": "autocomplete","Alt-F": "findPersistent"}  ,
+  mode: {name: "python",
+               version: 3,
+               singleLineStringErrors: false},
+        lineNumbers: true,
+        indentUnit: 4,
+        matchBrackets: true
+});
+
+CodeMirror.keyMap.pcDefault["Ctrl-D"] = ShowGLSLDoc;
+
+editor.on('cursorActivity', function() {
+   // ShowGLSLDoc(editor);
+});
+
+var compilerMessages = [];
+var widgets = []
+function updateHints() {
+  editor.operation(function(){
+    for (var i = 0; i < widgets.length; ++i)
+      editor.removeLineWidget(widgets[i]);
+    widgets.length = 0;
+
+    
+    for (var i = 0; i < compilerMessages.length; ++i) {
+      var err = compilerMessages[i];
+      if (!err) continue;
+      var msg = document.createElement("div");
+      var icon = msg.appendChild(document.createElement("span"));
+      icon.innerHTML = "!!";
+      icon.className = "lint-error-icon";
+      msg.appendChild(document.createTextNode(err.reason));
+      msg.className = "lint-error";
+      widgets.push(editor.addLineWidget(err.line - 1, msg, {coverGutter: false, noHScroll: true}));
+    }
+  });
+  var info = editor.getScrollInfo();
+  var after = editor.charCoords({line: editor.getCursor().line + 1, ch: 0}, "local").top;
+  if (info.top + info.clientHeight < after)
+    editor.scrollTo(null, after - info.clientHeight + 3);
+}
+
+var waiting;
+
+setTimeout(updateHints, 100);
+function SetSource(aMessage){
+	iMessage= aMessage.replace(/&apos;/g, "'");
+  iMessage = iMessage.replace(/<{br}>/g,"\n");
+    //console.log(iMessage);
+    editor.setValue(iMessage);
+    HasCMLSource = true;
+}
+function MessageFrom3DCoat(aMessage){
+  iMessage= aMessage.replace(/&apos;/g, "'");
+  console.log(iMessage);
+	if(iMessage.includes("<{SET_SOURCE}>")){
+    iMessage = iMessage.replace(/<{SET_SOURCE}>/g, "").replace(/<{br}>/g,"\n");
+    //console.log(iMessage);
+    editor.setValue(iMessage);
+    HasCMLSource = true;
+  } else {
+    if(iMessage.includes("[NEW_MESSAGE]")){
+      compilerMessages.length = 0;
+    } else {
+      if(iMessage.includes("ERROR: ")){
+        let numFrom = iMessage.indexOf(":", 7);
+        let linePos = Number(iMessage.substring(numFrom+1, iMessage.indexOf(":", numFrom+1)))%10000;
+        let hasError = false;
+            for (var i = 0; i < compilerMessages.length; ++i) {
+              var err = compilerMessages[i];
+              if (!err) continue;
+              if(err.reason == iMessage && err.line == linePos) hasError = true;
+          }
+        if(!hasError) compilerMessages.push({reason:iMessage, line:linePos});
+      }
+    }
+  }
+	clearTimeout(waiting);
+	waiting = setTimeout(updateHints, 100);
+	
+
+
+}
+
+function RunScript(){
+		py_console.PyInputLine(editor.getValue())
+
+}
+
+function checkAlphaNum(char) {
+		let alphaReg = new RegExp(/^[a-z]/i);
+		let numReg = new RegExp(/^[0-9]/);
+		if(alphaReg.test(char)) {
+			return true;
+		} else if(numReg.test(char)) {
+			return true;
+		} if(char == '.' || char == '_') {
+			return true;
+		} else {
+			return false;
+		}
+	}	
+
+	var lastDataSearch = "";
+
+editor.on('cursorActivity', function() {
+  
+    var A1 = editor.getCursor().line;
+    var A2 = editor.getCursor().ch;
+
+    var B1 = editor.findWordAt({line: A1, ch: A2}).anchor.ch;
+    var B2 = editor.findWordAt({line: A1, ch: A2}).head.ch;
+
+    selectedWord = editor.getRange({line: A1,ch: B1}, {line: A1,ch: B2});
+    selectedObjPath = editor.getRange({line: A1,ch: 0}, {line: A1,ch: A2});
+
+		let sDst = "";
+		let sSrc = selectedObjPath;
+
+    if(sSrc){
+      for(let i = sSrc.length-1; i >= 0; i--){
+        if(checkAlphaNum(sSrc[i])) {
+          sDst = sSrc[i]+ sDst;
+        } else break;
+      }
+    }
+    // console.log(selectedWord)
+    // console.log(sDst)
+    // console.log(sSrc)
+    if(lastDataSearch != sDst){
+  		py_console.DataSearchEditor(sDst);
+    }
+
+});
+
+function AutoComplete(completeWord){
+
+    var A1 = editor.getCursor().line;
+    var A2 = editor.getCursor().ch;
+
+    var B1 = editor.findWordAt({line: A1, ch: A2}).anchor.ch;
+    var B2 = editor.findWordAt({line: A1, ch: A2}).head.ch;
+    if(selectedWord[0] == '.' || !checkAlphaNum(selectedWord[0])){
+      B1++;
+    }
+    if(selectedWord[selectedWord.length-1] == '.' || !checkAlphaNum(selectedWord[selectedWord.length-1])){
+      B2--;
+    }
+    if(B2 <= B1){
+
+      editor.replaceSelection(completeWord, false, false);    
+
+    } else {
+
+      editor.replaceRange(completeWord, {line: A1,ch: B1}, {line: A1,ch: B2});    
+    }
+}
+
+/*
+let oldValue;
+function SendResultTo3DCoat( )
+{
+	if(oldValue != editor.getValue() && editor.getCursor.){
+		py_console.SaveCML(editor.getValue());
+		oldValue = editor.getValue();
+	}
+}
+
+
+setInterval(SendResultTo3DCoat, 500);
+*/
+</script>
+
+</body>
+</html>

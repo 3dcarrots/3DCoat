@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "xhtml1-transitional.dtd">
+<?xml-stylesheet type="text/xsl" href="mathml.xsl"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:pref="http://www.w3.org/2002/Math/preference"
+      pref:renderer="mathplayer-dl">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="docs.css"/>
+    <style>
+        dt { text-indent: -2em; padding-left: 2em; margin-top: 1em; }
+        dd { margin-left: 1.5em; margin-bottom: 1em; }
+        dt {margin-top: 1em;}
+        dd dl, dd dt, dd dd, dd ul { margin-top: 0; margin-bottom: 0; }
+        dt + dt { margin-top: 0; }
+        dt.command { position: relative; }
+        span.keybinding { position: absolute; right: 0; font-size: 80%; color: #555; text-indent: 0; }
+      </style>
+    <title>CML Editor - Help</title>
+</head>
+<body>
+CML is a material description language based on the GLSL shader language:
+ <a href="glslDoc/index.html">GLSL Language Reference Pages</a>
+ <br />
+ <br />
+ To create incoming or outgoing properties, you can simply prefix the variable with "<b>in</b>" or "<b>out</b>".<br />
+Properties can be global variables or attributes of the main function (main or mainImage).<br />
+Additional options for each property can be specified in round brackets:<br />
+<br />
+ <code>
+<b>in vec3</b> FragCoord(<b>value</b> = 1, <b>knot</b> = ioFragCoord, <b>expression</b> = R=V*D(K.x), <b>min</b> = -10.0, <b>max</b> = 10.0, AllowCurve = false, AllowTexture = false)
+  </code>
+<br />
+<br />
+If, depending on some settings, you need to generate different source code of the material, you can set these parameters as defines.
+<br />
+<br />
+#enum creates a dropdown menu in settings
+<br />
+In this case, DEFINE_NAME will contain the number of the selected element, the name of the selected element will also be defined, it will be connected to the list name with the _ symbol, and can be checked by the preprocessor: #ifdef DEFINE_NAME_OPTION3
+<br />
+<br />
+ <code>
+<b>#enum<b/> DEFINE_NAME OPTION1 OPTION2 OPTION3 OPTION4 ...
+  </code>
+<br />
+<br />
+#int allows you to set an integer, for this, the define options are set with a space: name of the define, default value, minimum value and maximum value.
+<br />
+<br />
+ <code>
+<b>#int</b> DEFINE_NAME 5 0 10
+  </code>
+<br />
+<br />
+#bool is just a checkbox, you can check whether it is enabled or not using the preprocessor directive #ifdef DEFINE_NAME
+<br />
+ <code>
+<br>#bool</b> DEFINE_NAME
+  </code>
+<br />
+<br />
+if you need to have direct access to the bitmap texture and Sampler2D you can use the directive: <br />#sampler DEFINE_NAME
+<br />
+This will allow users to load textures and you can use DEFINE_NAME as Sampler2D
+</body>
+</html>

@@ -1,0 +1,1 @@
+def MyFunc(X, Y): return X + Y

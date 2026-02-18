@@ -1,0 +1,146 @@
+html, body, table
+{
+	background-color:#181818;
+    color: #777;
+    padding: 4px 4px;
+    margin: 0px 0px 0 0px;
+    text-align: left;
+    font-family: Arial, Lucida, sans-serif;
+    font-size: 10pt;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+th {
+    color: #444;
+
+}
+a {
+    color: #99a;
+    text-shadow: 1px 1px 2px #111;
+    text-decoration: none;
+}
+a:hover {
+    color: #EEF;
+    text-shadow: 1px 1px 4px #000;
+    text-decoration: none;
+}
+
+.programlisting{
+    color: #559;
+
+}
+
+#container
+{
+    margin: 10px;
+    font-size: 14pt;
+    text-decoration:none;
+}
+
+div.refnamediv p
+{
+    font-size: 12pt;
+    margin: 20px;
+}
+
+div.funcsynopsis
+{
+    font-family: monospace;
+}
+
+div.funcsynopsis table
+{
+    font-family: monospace;
+}
+
+div.informaltable table
+{
+    border-width: 1px;
+    border-style: dotted;
+    border-collapse: collapse;
+    background-color: #222;
+    border-radius: 4px;
+    box-shadow: rgba(10, 10, 20, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+div.informaltable th
+{
+    border-width: 1px;
+    border-color: #222;
+    padding: 4px;
+}
+
+div.informaltable td
+{
+    border-width: 1px;
+    border-color: #222;
+    padding: 4px;
+}
+
+code
+{
+    font-weight: bold;
+}
+
+span.citerefentry
+{
+    font-family: monospace;
+    font-weight: bold;
+}
+
+table.sample
+{
+    width: 100%;
+    text-align: left;
+    border-width: 1px;
+    border-spacing: 5px;
+    border-style: dotted;
+    border-color: black;
+    border-collapse: separate;
+    background-color: #222;
+    font-family: sans-serif;
+    border-radius: 4px;
+    box-shadow: rgba(10, 10, 20, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+table.sample th
+{
+    border-width: 1px;
+    padding: 1px;
+    border-style: none;
+    font-size: 16pt;
+}
+
+table.sample td
+{
+    border-width: 1px;
+    padding: 1px;
+    border-style: none;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    background: #222; 
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: linear-gradient(90deg, #000 0%, #111 100%); 
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #444 0%, #333 100%); 
+    box-shadow: 1px 1px 2px #000;
+    border-radius: 3px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #444; 
+  }

@@ -1,0 +1,390 @@
+<html>
+<head>
+<title>Terminal Out</title>
+<link rel="stylesheet" type="text/css" href="docs.css"/>
+<script type="text/javascript" src="apex/apexcharts.min.js"></script>
+<link rel="stylesheet" href="apex/apexcharts.css">
+<script type="text/javascript" src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<link rel="stylesheet" href="../IDE/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="../IDE/codemirror/addon/hint/show-hint.css">
+<link rel="stylesheet" href="../IDE/codemirror/theme/mbo.css">
+<link rel="stylesheet" href="../IDE/codemirror/theme/ambiance.css">
+<link rel="stylesheet" href="../IDE/codemirror/addon/dialog/dialog.css">
+<link rel="stylesheet" href="../IDE/codemirror/addon/search/matchesonscrollbar.css">
+<link rel="stylesheet" href="../IDE/codemirror/addon/fold/foldgutter.css" />
+<script src="../IDE/codemirror/lib/codemirror.js"></script>
+<script src="../IDE/codemirror/addon/runmode/runmode.js"></script>
+<script src="../IDE/codemirror/addon/runmode/colorize.js"></script>
+<script src="../IDE/codemirror/mode/python/python.js"></script>
+<style>
+body {
+	background-color: #111; 
+	text-align: left; 
+	color: #989; 
+	font-family: system-ui; 
+	font-size: small;
+
+	padding-left: 10px;
+}
+
+pre {
+	border-left: 1px #555;
+	padding-top: 0px;
+	margin: 0px;
+}
+
+/* unvisited link */
+a:link {
+	color: #EEE;
+}
+
+/* visited link */
+a:visited {
+	color: #EEE;
+}
+
+/* mouse over link */
+a:hover {
+	color: #FFF;
+}
+
+/* selected link */
+a:active {
+	color: #EEE;
+}
+
+.stdOut {
+	color:#555;
+}
+
+.stdErr {
+	color:#C55;
+}
+
+.ERROR {
+	color:rgb(156, 21, 21);
+}
+
+.msgHeader{
+	color: darkolivegreen;
+}
+
+input[type="text"] {
+  &:hover,
+  &:active {
+    border: none 0px;
+  }
+
+  &:focus {
+    border: none 0px;
+  }
+}
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  vertical-align: top;
+}
+</style>
+<script type="text/javascript">
+
+	var blockID = 0;
+
+	var isBlock = /^(p|li|div|h\\d|pre|blockquote|td)$/;
+
+	function textContent(node, out) {
+		if (node.nodeType == 3) return out.push(node.nodeValue);
+		for (var ch = node.firstChild; ch; ch = ch.nextSibling) {
+			textContent(ch, out);
+			if (isBlock.test(node.nodeType)) out.push("\n");
+		}
+	}	
+	var lastTime = 0;
+
+	function timeToStr(msg_time){
+
+        let secconds = Math.floor(msg_time) % 60;
+        let minutes = Math.floor(msg_time / 60)  % 60;
+        let hours = Math.floor(msg_time / 60 / 60) % 24;
+        return hours.toString()+":"+minutes.toString()+":"+secconds.toString()+" ";
+
+	}
+	let lastRowsByType = {};
+
+	function PushMessage(aMessage, aCode, message_class, msg_time, replaceLastRow){	
+		var innerContent = document.getElementById("contentTable");
+		blockID++;
+		var msg = "";
+
+
+        let strTime = timeToStr(msg_time)
+		if(lastTime == msg_time) strTime = "";
+        lastTime = msg_time
+
+        let tpName = " "+message_class+": ";
+        if(message_class == "stdErr" || message_class == "stdOut")
+            tpName = "";
+        if(message_class == ">>")
+            tpName = " >> ";
+
+
+
+		if(aMessage.length > 0){
+			var msg = aMessage.replaceAll("<{&apos;}>", "'").replaceAll("<{<br />}>", "<br />").replaceAll("\\n", "<br />");
+			if(message_class.length > 1){
+				if(message_class == "stdErr"){
+					msg = '<pre><code class="'+message_class+'">' + msg + "</code></pre>";
+				} else {
+					msg = '<span class="'+message_class+'">' + msg + "</span>";
+				}
+			}
+		}
+		
+		var codeStr = "";
+		if(aCode.length > 0){
+			codeStr = aCode.replaceAll("<{&apos;}>", "'").replaceAll("<{<br />}>", "\n").replaceAll("&", "&#38;").replaceAll("<", "&#60;").replaceAll(">", "&#62;");
+			
+			codeStr = '<pre data-lang="python" id="codeID'+blockID.toString()+'">' + codeStr + "</pre>";
+		}
+
+
+		// Insert a row at the end of the table
+		let newRow = null;
+
+		if(replaceLastRow){ 
+			let lastRow = lastRowsByType[message_class];
+			if(lastRow) lastRow.remove(); 
+		}
+		newRow = innerContent.insertRow(-1);
+
+		lastRowsByType[message_class] = newRow;
+		// Insert a cell in the row at index 0
+		let newCell1 = newRow.insertCell(0);
+
+		// Insert a cell in the row at index 0
+		let newCell2 = newRow.insertCell(1);
+
+
+		newCell1.innerHTML = "<small>"+strTime+tpName+"</small>";
+		newCell2.innerHTML = codeStr+msg;
+
+
+		newCell1.className = "prevent-select";
+		// Append a text node to the cell
+		//let newText = document.createTextNode("New bottom row");
+		//newCell.appendChild(newText);
+
+		// Get a reference to the table
+
+		if(aCode.length > 0){
+				// code syntax highlighting
+			var node = document.getElementById('codeID'+blockID.toString());
+			//var mode = node.getAttribute("data-lang") || defaultMode;
+			var mode = "python";
+
+			var text = [];
+			textContent(node, text);
+			node.innerHTML = "";
+			CodeMirror.runMode(text.join(""), mode, node);
+
+			node.className += " cm-s-ambiance";		
+		}
+		window.scrollTo(0, document.body.scrollHeight);
+		document.getElementById("stdIn").focus();
+	}
+
+
+      window.onload = function() {
+          new QWebChannel(qt.webChannelTransport, function (channel) {
+            window.qWebChannel = channel;
+            window.app = channel.objects;
+            window.py_console = channel.objects.py_console;
+              //console.log(py_console);
+              //py_console.textChanged.connect(function(message) {
+                //  document.getElementById("output").innerHTML = message;
+             // });
+  
+          });
+      }
+  </script>  
+</head>
+<body id="body">
+<table id="contentTable" style="text-align: left;	padding-left: 10px;">
+	<tr>
+		<td>
+		</td>
+		<td>
+		</td>
+	</tr>
+</table>
+<table id="pinTable" style="text-align: left;	padding-left: 10px; width:100%">
+	<tr>
+		<td id="PinTime">
+		</td>
+		<td id="PinContent" style="width:100%">
+		</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<td>
+			&nbsp;>>&nbsp;
+		</td>
+		<td style="width:99%">
+			<input type="text" id="stdIn" name="stdIn" style="width:100%; font-family: system-ui; font-size: medium; border: none; background-color: #111; text-align: left; color: #989; outline: none!important;" />
+		<td>
+	</tr>
+</table>
+
+</body>
+<script>
+	var commandHistory = [];
+	var commandHistoryIdx = 1;
+	// Get the input field
+	var input = document.getElementById("stdIn");
+	var inputBody = document.getElementById("body");
+
+
+	// Execute a function when the user presses a key on the keyboard
+	var stdinInput = document.getElementById("stdIn");
+
+	function showPin(source, msgTime) {
+		document.getElementById("PinTime").innerHTML = timeToStr(msgTime);
+		document.getElementById("PinContent").innerHTML = source.replaceAll("<{&apos;}>", "'").replaceAll("<{<br />}>", "\n");
+	}
+
+	function checkKey(e) {
+
+		e = e || window.event;
+
+		if (e.keyCode == '38') {
+			stdinInput = document.getElementById("stdIn");
+			if(commandHistoryIdx < commandHistory.length) {
+
+				commandHistoryIdx++;
+				stdinInput.value = commandHistory[commandHistory.length-1];
+			}
+		}
+		else if (e.keyCode == '40') {
+			stdinInput = document.getElementById("stdIn");
+			if(commandHistoryIdx > 1) {
+
+				commandHistoryIdx--;
+				stdinInput.value = commandHistory[commandHistory.length-1];
+			}
+		}
+		else if (e.keyCode == '37') {
+		// left arrow
+		}
+		else if (e.keyCode == '39') {
+		// right arrow
+		}
+
+	}
+
+
+	function checkAlphaNum(char) {
+		let alphaReg = new RegExp(/^[a-z]/i);
+		let numReg = new RegExp(/^[0-9]/);
+		if(alphaReg.test(char)) {
+			return true;
+		} else if(numReg.test(char)) {
+			return true;
+		} if(char == '.' || char == '_') {
+			return true;
+		} else {
+			return false;
+		}
+	}	
+	var keypressEvent = function(event) {
+		// If the user presses the "Enter" key on the keyboard
+		stdinInput = document.getElementById("stdIn");
+		if (event.key === "Enter") {
+			// Cancel the default action, if needed
+			//event.preventDefault();
+
+			// Trigger the button element with a click
+			py_console.PyInputLine(stdinInput.value);
+			commandHistory.push(stdinInput.value)
+			stdinInput.value = "";
+			commandHistoryIdx = 0;
+		}
+		if (event.key === "ArrowUp" || event.key === "Up") {
+			if(commandHistoryIdx < commandHistory.length) {
+
+				commandHistoryIdx++;
+				stdinInput.value = commandHistory[commandHistory.length-commandHistoryIdx];
+			}
+			event.preventDefault();
+		}
+		if (event.key === "ArrowDown" || event.key === "Down") {
+			if(commandHistoryIdx > 0) {
+
+				commandHistoryIdx--;
+				if(commandHistoryIdx == 0) {
+					stdinInput.value = "";
+				}
+				else {
+					stdinInput.value = commandHistory[commandHistory.length-commandHistoryIdx];
+				}
+			}
+			event.preventDefault();
+		}
+		window.scrollTo(0, document.body.scrollHeight); 
+
+		let iStdIn = document.getElementById('stdIn');
+
+		iStdIn.focus();
+
+	}
+	
+	var lastDataSearch = "";
+	var keypUpEvent = function(event) {
+		let sDst = "";
+
+		let sSrc = stdinInput.value;
+
+		for(let i = Math.min(stdinInput.selectionStart-1, sSrc.length-1); i >= 0; i--){
+			if(checkAlphaNum(sSrc[i])) {
+				sDst = sSrc[i]+ sDst;
+			} else break;
+		}
+		
+		// console.log(sDst);
+		if(lastDataSearch != sDst){
+			py_console.DataSearchInput(sDst);
+			lastDataSearch = sDst;
+		}
+	}
+
+	function AutoComplete(var_path){
+
+		let sSrc = stdinInput.value;
+		let posFrom = stdinInput.selectionStart;
+		let sDst = "";
+		for(let i = Math.min(stdinInput.selectionStart-1, sSrc.length-1); i >= 0; i--){
+			if(checkAlphaNum(sSrc[i]) && sSrc[i] != '.') {
+				sDst = sSrc[i]+ sDst;
+				posFrom = i;
+			} else break;
+		}
+
+		let newValue = "";
+		for(let i = 0; i < posFrom; i++){
+			newValue += sSrc[i];
+		}
+		newValue += var_path;
+		for(let i = stdinInput.selectionStart; i < sSrc.length; i++){
+			newValue += sSrc[i];
+		}
+		stdinInput.value = newValue;
+	}
+
+//	input.addEventListener("keypress", keypressEvent);
+//	inputBody.addEventListener("keypress", keypressEvent);
+
+window.addEventListener("keydown", keypressEvent, false);
+window.addEventListener("keyup", keypUpEvent, false);
+
+</script>
+</html>
