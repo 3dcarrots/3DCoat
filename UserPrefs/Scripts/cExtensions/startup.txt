@@ -1,5 +1,0 @@
-debugger
-RealityCapture
-AVIF
-QT
-QTColorSelector

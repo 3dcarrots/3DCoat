@@ -1,4 +1,4 @@
 
-out color RGBOcclusion;
+out color Occlusion;
 
-RGBOcclusion = ioOcclusion;   
+Occlusion = ioOcclusion;

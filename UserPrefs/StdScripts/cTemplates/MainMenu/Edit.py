@@ -91,10 +91,12 @@ def S_CalculateMaps():
    Tools for calculating Occlusion, Curvature, and Light Baking maps.
    
    Items:
+   - Calculate Geometry Info
    - Calculate Occlusion
    - Calculate Curvature
    - Light Baking Tool
    """
+   coat.menu_item("GEOMETRY_INFO_TOOL") # Calculate Geometry Info
    coat.menu_item("OCCLUSION_TOOL") # Calculate Occlusion
    coat.menu_item("CAVITY_TOOL") # Calculate Curvature
    coat.menu_item("LIGHTBAKING_TOOL") # Light Baking Tool

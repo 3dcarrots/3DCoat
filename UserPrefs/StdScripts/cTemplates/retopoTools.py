@@ -51,7 +51,7 @@ def Basic():
    - Free Scaling
    - Make Joints
    """
-   coat.default_tool("[RetopoTool]TopToolAddPolygones")
+   coat.default_tool("[RetopoTool]TopToolSelectAndOperate")
    coat.tools_item("[RetopoTool]TopToolAddPolygones") # Add/Split
    coat.tools_item("[RetopoTool]TopToolSelectAndOperate") # Select
    coat.tools_item("[RetopoTool]TopToolSelTransform") # Select/Transform
@@ -601,3 +601,4 @@ def SmartHybrid():
 	coat.tools_item("[extension]SmartHybridOffset") # Smart Hybrid Offset
 	coat.tools_item("[extension]SmartHybridAlignment") # Smart Hybrid Alignment
 	coat.tools_item("[extension]SmartHybridSubDivide") # Smart Hybrid SubDivide
+	coat.tools_item("[extension]SmartHybridPrimitive") # Smart Hybrid Primitive

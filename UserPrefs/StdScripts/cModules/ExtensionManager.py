@@ -100,7 +100,6 @@ class ExtensionManager(cPy.cCore.ExtensionManager):
                 return True
         return False
         
-
     def GetLoadedModulesInfo(self):
         for md in sys.modules:
             if not self.CheckIfMuduleInList(md):
@@ -115,6 +114,17 @@ class ExtensionManager(cPy.cCore.ExtensionManager):
                             # print(md)
                             mfu = cModules.ModuleReloader.ModuleFilesUpdaterInfo()
                             mfu.filePath = filePath
+                            mfu.modulePath = md
+                            mfu.UpdateModTimeAndSize()
+                            mfu.Changed = False
+                            cModules.ModuleReloader.LoadedModulesList.append(mfu)
+                    else:
+                        initFilePath = instFolder + "/UserPrefs/StdScripts/"+mdToFile+"/__init__.py"
+                        initFilePath = initFilePath.replace("\\", "/")
+                        initFilePath = initFilePath.replace("//", "/")
+                        if os.path.isfile(initFilePath):
+                            mfu = cModules.ModuleReloader.ModuleFilesUpdaterInfo()
+                            mfu.filePath = initFilePath
                             mfu.modulePath = md
                             mfu.UpdateModTimeAndSize()
                             mfu.Changed = False

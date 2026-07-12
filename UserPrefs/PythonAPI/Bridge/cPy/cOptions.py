@@ -172,6 +172,8 @@ class AppOptions(cPy.cCore.BaseClass):
 	AllowLegacyProxyMode: bool = Coat_CPP.AppOptions.AllowLegacyProxyMode #: static bool (T)  Allow Proxy mode (the legacy tool) for Multi-Resolution, instead of Newer Levels-Based System 
 	ShowMemoryInfo: bool = Coat_CPP.AppOptions.ShowMemoryInfo #: static bool (T)  It is useful if you hunt for memory leaks and investigate memory usage. 
 	ArrayAndRoundingModifier: int = Coat_CPP.AppOptions.ArrayAndRoundingModifier #: static int (T)  E-mode Array and Rounding hotkeys 
+	NGLShowHoveredKnotsOnly: bool = Coat_CPP.AppOptions.NGLShowHoveredKnotsOnly #: static bool (T)  
+	NGLHideDefinesUntilDblClick: bool = Coat_CPP.AppOptions.NGLHideDefinesUntilDblClick #: static bool (T)  
 	RecordTimelapse: bool = Coat_CPP.AppOptions.RecordTimelapse #: static bool (T)  Recording a timelapse of the process of working on a model without an interface. 
 	TimelapseSmoothCamera: float = Coat_CPP.AppOptions.TimelapseSmoothCamera #: static float (T)  To prevent camera movement from flickering during timelapse, camera movement will be additionally smoothed to the specified degree. 
 	TimelapseShotInterval: float = Coat_CPP.AppOptions.TimelapseShotInterval #: static float (T)  How often to take one snapshot of your work in seconds. 
@@ -298,6 +300,9 @@ class AppOptions(cPy.cCore.BaseClass):
 	GammaCorrectionGreen: float = Coat_CPP.AppOptions.GammaCorrectionGreen #: static float (T)  
 	GammaCorrectionBlue: float = Coat_CPP.AppOptions.GammaCorrectionBlue #: static float (T)  
 	AcesTonemapping: bool = Coat_CPP.AppOptions.AcesTonemapping #: static bool (T)  Aces Tone Mapping is used widely in the Film & Game industry, and this mode will help the look in the viewport match more closely to the viewport in Game Engines or applications that employ it. 
+	IterativeViewportAA: bool = Coat_CPP.AppOptions.IterativeViewportAA #: static bool (T)  Iterative Viewport AA allows for smoother viewport rendering by accumulating sub-pixel camera jitter frames while the app is idle. 
+	AutoReduceGPUQuadBlendRes: bool = Coat_CPP.AppOptions.AutoReduceGPUQuadBlendRes #: static bool (T)  
+	AutoReduceGPUQuadBlendResTime: float = Coat_CPP.AppOptions.AutoReduceGPUQuadBlendResTime #: static float (T)  
 	SoftwarePreset: int = Coat_CPP.AppOptions.SoftwarePreset #: static int (T)  Normal Map Software Preset 
 	TBN_Normalisation: int = Coat_CPP.AppOptions.TBN_Normalisation #: static int (T)  Local space (TBN) normalization method 
 	NormalsCalculationMethod: int = Coat_CPP.AppOptions.NormalsCalculationMethod #: static int (T)  Choose how normals of the mesh for painting will be calculated 
@@ -535,7 +540,7 @@ class AppOptions(cPy.cCore.BaseClass):
 	FreezePScrollSpeed: float = Coat_CPP.AppOptions.FreezePScrollSpeed #: static float (T)  Freeze pattern scroll speed. Change the pattern used to indicate frozen areas in the freeze menu 
 	HidePenConstantlyInCapsMode: bool = Coat_CPP.AppOptions.HidePenConstantlyInCapsMode #: static bool (T)  If this option is checked brush will be hidden constantly in CAPS LOCK mode, otherwise it will be hidden only while drawing 
 	HidePenConstantly: bool = Coat_CPP.AppOptions.HidePenConstantly #: static bool (T)  If this option is checked brush will be hidden when drawing 
-	ShowPenShape: bool = Coat_CPP.AppOptions.ShowPenShape #: static bool (T)  Show Brush Curve 
+	ShowPenShape: int = Coat_CPP.AppOptions.ShowPenShape #: static int (T)  Show Brush Curve 
 	ShowPenAlpha: bool = Coat_CPP.AppOptions.ShowPenAlpha #: static bool (T)  Show Brush Alpha Texture 
 	PenCircleColor: int = Coat_CPP.AppOptions.PenCircleColor #: static DWORD (T)  Brush Circle Color 
 	PenShapeColor: int = Coat_CPP.AppOptions.PenShapeColor #: static DWORD (T)  Color of the brush curve. This color will be used for the dot in CAPS LOCK mode 
@@ -563,6 +568,7 @@ class AppOptions(cPy.cCore.BaseClass):
 	ShowPolycountNearVolumes: bool = Coat_CPP.AppOptions.ShowPolycountNearVolumes #: static bool (T)  Show Polycount near the Volume's Name 
 	RelaxSharpEdges: bool = Coat_CPP.AppOptions.RelaxSharpEdges #: static bool (T)  Moving or not the "Sharp Edges" during Relaxing 
 	CentralRectExpansion: bool = Coat_CPP.AppOptions.CentralRectExpansion #: static bool (T)  Expand the rectangle, square, or shape from the center. 
+	SwitchPenModeSelectTransformActivate: bool = Coat_CPP.AppOptions.SwitchPenModeSelectTransformActivate #: static bool (T)  Switching Pen Mode to Rectangle After the Select Transform Activated 
 	PanM: cPy.cTypes.cMat3 #: cMat3 (T)  
 	WPanM: cPy.cTypes.cMat3 #: cMat3 (T)  
 	@staticmethod

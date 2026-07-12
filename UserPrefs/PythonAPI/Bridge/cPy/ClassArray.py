@@ -17,8 +17,12 @@ class ClassArray_BaseClass():
 		'''
 		pass # cpp source
 
+	RefsArray: bool #: bool (T)  
 	def __init__(self):
 		pass # CPP source
+
+	def Count(self) -> int:
+		pass # cpp source
 
 	def __assign__(self, src: ClassArray_BaseClass):
 		return super().__assign__(src)
@@ -27,6 +31,11 @@ class ClassArray_BaseClass():
 		pass # CPP source
 
 	def reset_class(self, ptr: any):
+		'''
+			
+		 \brief Deletes all objects from memory and clears the array.
+		
+		'''
 		pass # cpp source
 
 	def Clear(self):
@@ -75,6 +84,9 @@ class ClassArray_BaseClass():
 		pass # cpp source
 
 	def GetLast(self) -> any:
+		pass # cpp source
+
+	def isNotParent(self) -> bool:
 		pass # cpp source
 
 
@@ -88,8 +100,12 @@ class ClassArray_NGObject():
 		'''
 		pass # cpp source
 
+	RefsArray: bool #: bool (T)  
 	def __init__(self):
 		pass # CPP source
+
+	def Count(self) -> int:
+		pass # cpp source
 
 	def __assign__(self, src: ClassArray_NGObject):
 		return super().__assign__(src)
@@ -98,6 +114,11 @@ class ClassArray_NGObject():
 		pass # CPP source
 
 	def reset_class(self, ptr: any):
+		'''
+			
+		 \brief Deletes all objects from memory and clears the array.
+		
+		'''
 		pass # cpp source
 
 	def Clear(self):
@@ -146,6 +167,9 @@ class ClassArray_NGObject():
 		pass # cpp source
 
 	def GetLast(self) -> any:
+		pass # cpp source
+
+	def isNotParent(self) -> bool:
 		pass # cpp source
 
 
@@ -159,8 +183,12 @@ class ClassArray_NGComponent():
 		'''
 		pass # cpp source
 
+	RefsArray: bool #: bool (T)  
 	def __init__(self):
 		pass # CPP source
+
+	def Count(self) -> int:
+		pass # cpp source
 
 	def __assign__(self, src: ClassArray_NGComponent):
 		return super().__assign__(src)
@@ -169,6 +197,11 @@ class ClassArray_NGComponent():
 		pass # CPP source
 
 	def reset_class(self, ptr: any):
+		'''
+			
+		 \brief Deletes all objects from memory and clears the array.
+		
+		'''
 		pass # cpp source
 
 	def Clear(self):
@@ -217,6 +250,9 @@ class ClassArray_NGComponent():
 		pass # cpp source
 
 	def GetLast(self) -> any:
+		pass # cpp source
+
+	def isNotParent(self) -> bool:
 		pass # cpp source
 
 
@@ -230,8 +266,12 @@ class ClassArray_knProperty():
 		'''
 		pass # cpp source
 
+	RefsArray: bool #: bool (T)  
 	def __init__(self):
 		pass # CPP source
+
+	def Count(self) -> int:
+		pass # cpp source
 
 	def __assign__(self, src: ClassArray_knProperty):
 		return super().__assign__(src)
@@ -240,6 +280,11 @@ class ClassArray_knProperty():
 		pass # CPP source
 
 	def reset_class(self, ptr: any):
+		'''
+			
+		 \brief Deletes all objects from memory and clears the array.
+		
+		'''
 		pass # cpp source
 
 	def Clear(self):
@@ -288,6 +333,9 @@ class ClassArray_knProperty():
 		pass # cpp source
 
 	def GetLast(self) -> any:
+		pass # cpp source
+
+	def isNotParent(self) -> bool:
 		pass # cpp source
 
 
@@ -301,8 +349,12 @@ class ClassArray_BaseNode():
 		'''
 		pass # cpp source
 
+	RefsArray: bool #: bool (T)  
 	def __init__(self):
 		pass # CPP source
+
+	def Count(self) -> int:
+		pass # cpp source
 
 	def __assign__(self, src: ClassArray_BaseNode):
 		return super().__assign__(src)
@@ -311,6 +363,11 @@ class ClassArray_BaseNode():
 		pass # CPP source
 
 	def reset_class(self, ptr: any):
+		'''
+			
+		 \brief Deletes all objects from memory and clears the array.
+		
+		'''
 		pass # cpp source
 
 	def Clear(self):
@@ -359,5 +416,8 @@ class ClassArray_BaseNode():
 		pass # cpp source
 
 	def GetLast(self) -> any:
+		pass # cpp source
+
+	def isNotParent(self) -> bool:
 		pass # cpp source
 

@@ -107,7 +107,8 @@ def BaseSurfaceTools():
    - Snake Clay
    - Copy Clay
    """
-   coat.tools_item("[extension]SCULP_SCLAY") # Clay
+   coat.tools_item("[extension]SCULP_SCLAY")
+   coat.tools_item("[extension]SCULP_SCLAY_FAST")
    coat.tools_item("[extension]SCULPT_DRAW") # Draw
    coat.tools_item("{FLT}[extension]SCULP_PLANE") # Flatten
    coat.tools_item("{FLT}[extension]SCULP_PLANE2") # Chisel
@@ -225,6 +226,7 @@ def AdjustVoxel():
       - Moulding
       """
       coat.tools_item("[extension]CutOff") # Cut Off
+      coat.tools_item("[extension]LineSplitter")
       coat.tools_item("[extension]Measure") # Measure
       coat.tools_item("[extension]Supports") # 3D-Print Supports
       coat.tools_item("[extension]VoXRay") # Vox Slice
@@ -269,6 +271,7 @@ def AdjustSurface():
       """
       coat.tools_item("[extension]SculptBevel") # Sculpt Bevel
       coat.tools_item("[extension]CutOff") # Cut Off
+      coat.tools_item("[extension]LineSplitter")
       coat.tools_item("[extension]Noise") # Noise
       coat.tools_item("{HEAL}[extension]CloseHole") # Close Hole
       coat.tools_item("{HEAL}[extension]Reconstruct") # Reconstruct
@@ -375,7 +378,6 @@ def Voxel():
       General Voxel sculpting tools (Grow, Fill, Carve, etc.).
 
       Tools in this section:
-      - Vox Clay
       - Grow
       - Build
       - Airbrush
@@ -390,7 +392,6 @@ def Voxel():
       - Pinch
       - Smudge
       """
-      coat.tools_item("[VOX_SCULPT_TOOL]SCULP_CLAY") # Vox Clay
       coat.tools_item("[VOX_SCULPT_TOOL]SCULP_GROW") # Grow
       coat.tools_item("{LEGACYVOX}[extension]SCULPT_BUILD") # Build
       coat.tools_item("{LEGACYVOX}[VOX_SCULPT_TOOL]SCULPT_ALPGROW") # Airbrush
@@ -562,6 +563,7 @@ def ProxyTools():
 
 ProxyTools.Content.append(BaseSurfaceTools)
 ProxyTools.Content.append(AdjustProxy)
+ProxyTools.Content.append(Layers)
 ProxyTools.Content.append(ProxyCommands) 
 
 @d_child(ProxyTools)

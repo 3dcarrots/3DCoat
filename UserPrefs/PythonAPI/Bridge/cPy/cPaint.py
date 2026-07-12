@@ -79,6 +79,24 @@ class PaintRoom():
 		pass # cpp source
 
 	@staticmethod
+	def ForceMapCPUQuadsToGPU():
+		'''
+			
+		Force UpdateDirtyQuadsGPU to remap all CPU quads to GPU
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def ForceBlendGPUQuads():
+		'''
+			
+		Force blending of all GPU quads for all layers
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
 	def ExportMesh(filename: str, fromRetopoRoom: bool = False, transformToSelectedObjectSpace: bool = False) -> bool:
 		'''
 			
@@ -104,5 +122,114 @@ class PaintRoom():
 
 	@staticmethod
 	def GetPPPObject(idx: int) -> PPPObject:
+		pass # cpp source
+
+	@staticmethod
+	def GetUVSetsCount() -> int:
+		pass # cpp source
+
+	@staticmethod
+	def GetUVSetName(index: int) -> str:
+		'''
+			
+		Get the name of a UV set by its index.
+
+		Args:
+			index (int): Index of the UV set.
+
+		Returns:
+			str: The name of the UV set.
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def RenameUVSet(index: int, newName: str):
+		'''
+			
+		Rename an existing UV set.
+
+		Args:
+			index (int): Index of the UV set.
+			newName (str): New name.
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def GetUVSetResolutionX(index: int) -> int:
+		'''
+			
+		Get the current texture resolution X for the specified UV set.
+
+		Args:
+			index (int): Index of the UV set.
+
+		Returns:
+			int: width.
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def GetUVSetResolutionY(index: int) -> int:
+		'''
+			
+		Get the current texture resolution Y for the specified UV set.
+
+		Args:
+			index (int): Index of the UV set.
+
+		Returns:
+			int: height.
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def ResizeUVSet(index: int, width: int, height: int) -> bool:
+		'''
+			
+		Change the texture resolution of the UV set.
+
+		Args:
+			index (int): Index of the UV set.
+			width (int): New width.
+			height (int): New height.
+
+		Returns:
+			bool: True on success.
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def CalculateUVSpace(index: int) -> float:
+		'''
+			
+		Calculate the total UV space area occupied by polygons in this UV set.
+
+		Args:
+			index (int): Index of the UV set.
+
+		Returns:
+			float: Area in UV coordinates.
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def GetUVSetFaceCount(index: int) -> int:
+		'''
+			
+		Get the number of polygons (faces) belonging to the specified UV set.
+
+		Args:
+			index (int): Index of the UV set.
+
+		Returns:
+			int: Number of polygons.
+		
+		'''
 		pass # cpp source
 

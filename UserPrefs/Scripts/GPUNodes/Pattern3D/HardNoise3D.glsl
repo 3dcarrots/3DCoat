@@ -8,16 +8,16 @@ float hash(vec3 p)
 }
 
 void main(
-	in vec3 FragCoord(knot = ioFragCoord, min = -1.0, max = 1.0),
-	in vec3 Scale(value = 1, min = 0.0, max = 10.0),
+	in vec3 FragCoord(knot = ioFragCoord, min = -1.0, max = 1.0, expression= R=(V*K)),
+	in vec3 Scale(value = 1, min = 0.0, max = 10.0, expression= R=(V*K)),
 	out float Result
 )
 {
 		float result = 0.0;
 		float summ = 0.0;
-		vec3 iScale = Scale.xyz;
+		vec3 iScale = Scale;
 #if Steps == 1
-			vec3 x = (FragCoord.xyz) * iScale+vec3(123,543,211);
+			vec3 x = (FragCoord) * iScale+vec3(123,543,211);
 			iScale *= 0.5;
 			vec3 i = floor(x.xyz * 100.0);
 			vec3 f = fract(x.xyz * 100.0);
@@ -34,7 +34,7 @@ void main(
 #else	
 		for (float iStep = 1; iStep < Steps+0.5; iStep = iStep + 1.0) {
 			float iStep2 = iStep * iStep;
-			vec3 x = (FragCoord.xyz) * iScale+vec3(123,543,211);
+			vec3 x = (FragCoord) * iScale+vec3(123,543,211);
 			iScale *= 0.5;
 			vec3 i = floor(x.xyz * 100.0);
 			vec3 f = fract(x.xyz * 100.0);

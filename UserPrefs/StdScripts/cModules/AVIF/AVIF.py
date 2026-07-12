@@ -20,37 +20,37 @@ from cTemplates.Structs import *
 
 def save_numpy_to_avif(image_arr: np.ndarray, output_path: str, quality: int = 20, speed: int = 6, tile_size = 2048):
     """
-    Зберігає зображення з масиву Numpy у формат AVIF з автоматичним вибором бітової глибини.
+    Saves an image from a Numpy array to AVIF format with automatic bit depth selection.
 
-    Параметри:
-    image_arr (np.ndarray): Вхідний масив зображення.
-    output_path (str): Шлях до вихідного файлу.
-    quality (int): CRF (0-63). Менше = краща якість.
-    speed (int): Швидкість кодування (0-8).
+    Parameters:
+    image_arr (np.ndarray): Input image array.
+    output_path (str): Path to the output file.
+    quality (int): CRF (0-63). Lower = better quality.
+    speed (int): Encoding speed (0-8).
     """
     
-    # --- Етап 1: Аналіз вхідних даних ---
+    # --- Stage 1: Input data analysis ---
     if not isinstance(image_arr, np.ndarray):
-        raise ValueError("Вхідні дані повинні бути масивом numpy.")
+        raise ValueError("Input data must be a numpy array.")
 
     dtype = image_arr.dtype
     shape = image_arr.shape
     
-    # Розпаковка розмірів (виправлено логіку)
+    # Unpack dimensions (fixed logic)
     if len(shape) == 2:
         height, width = shape
         channels = 1
     elif len(shape) == 3:
         height, width, channels = shape
     else:
-        raise ValueError(f"Непідтримувана розмірність масиву: {shape}")
+        raise ValueError(f"Unsupported array dimension: {shape}")
 
-    # --- Етап 2: Нормалізація даних ---
+    # --- Stage 2: Data normalization ---
     working_arr = image_arr
     is_high_bit_depth = False
 
     if dtype.kind == 'f':
-        # Конвертація float -> uint16
+        # Convert float -> uint16
         working_arr = (image_arr * 65535).clip(0, 65535).astype(np.uint16)
         dtype = np.uint16
         is_high_bit_depth = True
@@ -59,16 +59,16 @@ def save_numpy_to_avif(image_arr: np.ndarray, output_path: str, quality: int = 2
     elif dtype == np.uint8:
         is_high_bit_depth = False
     else:
-        # Інші типи -> uint16
+        # Other types -> uint16
         working_arr = image_arr.astype(np.uint16)
         is_high_bit_depth = True
 
-    # --- Етап 3: Вибір піксельного формату ---
+    # --- Stage 3: Pixel format selection ---
     source_format = ""  
     target_pix_fmt = "" 
 
     if is_high_bit_depth:
-        # 12-бітний режим
+        # 12-bit mode
         if channels == 1:
             source_format = "gray16le" 
             target_pix_fmt = "gray12le"
@@ -77,15 +77,15 @@ def save_numpy_to_avif(image_arr: np.ndarray, output_path: str, quality: int = 2
             target_pix_fmt = "yuv444p12le"
         elif channels == 4:
             source_format = "rgba64le"
-            # AV1 часто не підтримує 12-бітну альфу в стандартному режимі stream
-            # Відкидаємо альфу для стабільності
+            # AV1 often does not support 12-bit alpha in standard stream mode
+            # Discard alpha for stability
             working_arr = working_arr[:, :, :3]
             working_arr = np.ascontiguousarray(working_arr)
             source_format = "rgb48le"
             target_pix_fmt = "yuv444p12le"
             channels = 3
     else:
-        # 8-бітний режим
+        # 8-bit mode
         if channels == 1:
             source_format = "gray"
             target_pix_fmt = "gray"
@@ -93,10 +93,15 @@ def save_numpy_to_avif(image_arr: np.ndarray, output_path: str, quality: int = 2
             source_format = "rgb24"
             target_pix_fmt = "yuv444p"
         elif channels == 4:
-            source_format = "rgba"
-            target_pix_fmt = "yuva444p" # Спробуємо зберегти альфу
+            # AV1 often does not support alpha in standard stream mode
+            # Discard alpha for stability
+            working_arr = working_arr[:, :, :3]
+            working_arr = np.ascontiguousarray(working_arr)
+            source_format = "rgb24"
+            target_pix_fmt = "yuv444p"
+            channels = 3
 
-    # --- Етап 4: Налаштування контейнера ---
+    # --- Stage 4: Container setup ---
     container = None
     try:
         container = av.open(output_path, mode='w')
@@ -105,20 +110,8 @@ def save_numpy_to_avif(image_arr: np.ndarray, output_path: str, quality: int = 2
         stream.width = width
         stream.height = height
         
-        # Перевірка підтримки формату
-        try:
-            stream.pix_fmt = target_pix_fmt
-        except ValueError:
-            # Якщо yuva444p не підтримується
-            if "yuva" in target_pix_fmt:
-                target_pix_fmt = "yuv444p"
-                stream.pix_fmt = target_pix_fmt
-                if channels == 4 and dtype == np.uint8:
-                    working_arr = working_arr[:, :, :3]
-                    working_arr = np.ascontiguousarray(working_arr)
-                    source_format = "rgb24"
-            else:
-                raise RuntimeError("Неможливо підібрати сумісний піксельний формат.")
+        # Format support
+        stream.pix_fmt = target_pix_fmt
 
         tilesX = math.floor(width/tile_size)
         tilesY = math.floor(height/tile_size)
@@ -127,31 +120,41 @@ def save_numpy_to_avif(image_arr: np.ndarray, output_path: str, quality: int = 2
         if tilesX < 2: 
             tilesX = 2
 
-        stream.options = {
+        opts = {
             'cpu-used': str(speed),
             'crf': str(quality),
             'usage': 'allintra',
-            'row-mt': '1',
-            'tiles': str(tilesX)+'x'+str(tilesY),
+            'row-mt': '1'
         }
         
-        # --- Етап 5: Кодування ---
+        if tilesX > 1:
+            opts['tile-columns'] = str(int(math.log2(tilesX)))
+        if tilesY > 1:
+            opts['tile-rows'] = str(int(math.log2(tilesY)))
+            
+        # 12-bit formats require Profile 2 in libaom-av1
+        if is_high_bit_depth:
+            opts['profile'] = '2'
+            
+        stream.options = opts
+        
+        # --- Stage 5: Encoding ---
         frame = av.VideoFrame.from_ndarray(working_arr, format=source_format)
         
-        # ВИПРАВЛЕННЯ: Використовуємо ціле число 1 замість 'I' для типу кадру
+        # FIX: Use integer 1 instead of 'I' for frame type
         # 1 = AV_PICTURE_TYPE_I (Intra/Keyframe)
         frame.pict_type = 1 
         
-        # Кодування пакетів
+        # Packet encoding
         for packet in stream.encode(frame):
             container.mux(packet)
             
-        # Завершення потоку
+        # End of stream
         for packet in stream.encode():
             container.mux(packet)
             
     except Exception as e:
-        # Прокидаємо помилку далі для відлагодження у хості
+        # Pass the error further for debugging in the host
         raise e
     finally:
         if container:
@@ -165,12 +168,15 @@ class AVIFSettings(cPy.cCore.BaseClass):
         self.speed = cPy.cCore.cSInt("speed", 3, 0, 10)
         self.tile_size = cPy.cCore.cSInt("tile_size", 2048, 128, 4096)
         self.greyscale = cPy.cCore.cSBool("greyscale")
+        self.power_of_two = cPy.cCore.cSBool("Power of 2")
+        self.power_of_two.Value = True
 
     def pySerialize(self):
         cPy.cCore.cREG.slider_int(self.quality)
         cPy.cCore.cREG.slider_int(self.speed)
         cPy.cCore.cREG.slider_int(self.tile_size)
         # cPy.cCore.cREG.checkbox(self.greyscale)
+        cPy.cCore.cREG.checkbox(self.power_of_two)
 
 avifSettings = AVIFSettings()
 
@@ -184,38 +190,41 @@ class AVIFCodec(cPy.cIO.cImageCodec):
             
             img_array = None
 
-            # Декодуємо перший кадр
+            # Decode the first frame
             for frame in container.decode(video=0):
-                # 1. Перевіряємо бітову глибину вхідного кадру
-                # Зазвичай беремо глибину першого компонента (наприклад, Y або R)
+                # 1. Check the bit depth of the input frame
+                # Usually take the depth of the first component (e.g., Y or R)
                 bit_depth = 8
                 if frame.format and frame.format.components:
                     bit_depth = frame.format.components[0].bits
                 
-                # 2. Вибираємо цільовий формат на основі глибини
+                # 2. Select target format based on depth
                 if bit_depth > 8:
-                    # Якщо 10 або 12 біт -> конвертуємо в 16 біт (uint16)
+                    # If 10 or 12 bit -> convert to 16 bit (uint16)
                     target_fmt = 'rgb48le'
                 else:
-                    # Якщо 8 біт -> залишаємо 8 біт (uint8)
+                    # If 8 bit -> keep 8 bit (uint8)
                     target_fmt = 'rgb24'
 
-                # 3. Отримуємо масив у потрібному форматі
+                # 3. Get array in the required format
                 img_array = frame.to_ndarray(format=target_fmt)
                 break
             
             if img_array is None:
                 return False
 
-            # Перевірка для налагодження
+            if bit_depth > 8 and img_array.dtype == np.uint8:
+                img_array = img_array.view(np.uint16)
+                
+            # Debug check
             print(f"Decoded AVIF: depth={bit_depth}, dtype={img_array.dtype}, shape={img_array.shape}")     
             
-            # Фліп (дзеркальне відображення по вертикалі), якщо це потрібно для 3DCoat
+            # Flip (vertical mirroring), if needed for 3DCoat
             img_array = np.flip(img_array, axis=0)
 
-            # Передаємо в CoreAPI (він повинен вміти приймати і uint8, і uint16)
+            # Pass to CoreAPI (it should be able to accept both uint8 and uint16)
             cPy.CoreAPI.Image.cImageFromArray(img_array, To)
-            
+                        
             return True 
         except Exception as e:
             print(f"AVIF Decode Error: {e}")
@@ -224,7 +233,7 @@ class AVIFCodec(cPy.cIO.cImageCodec):
             return False
 
     def Encode(self, Image: cPy.cImage.cImage, To: cPy.cIO.cFile):
-        # ... (Ваш код Encode без змін)
+        # ... (Your Encode code unchanged)
         try:
             path = To.GetFilePn().ToCharPtr()
             img_array = np.asarray(Image)
@@ -232,6 +241,31 @@ class AVIFCodec(cPy.cIO.cImageCodec):
             CRF = math.floor((100-avifSettings.quality.Value)*63/100)
             img_array = np.flip(img_array, axis=0)
             
+            if getattr(avifSettings.power_of_two, 'Value', False):
+                h, w = img_array.shape[:2]
+                new_w = 2 ** round(math.log2(w))
+                new_h = 2 ** round(math.log2(h))
+                
+                if new_w != w or new_h != h:
+                    print(f"Resizing from {w}x{h} to {new_w}x{new_h} (Power of 2)")
+                    try:
+                        import cv2
+                        img_contig = np.ascontiguousarray(img_array)
+                        img_array = cv2.resize(img_contig, (new_w, new_h), interpolation=cv2.INTER_AREA)
+                    except ImportError:
+                        try:
+                            from PIL import Image as PILImage
+                            if img_array.dtype == np.uint8:
+                                img_contig = np.ascontiguousarray(img_array)
+                                img = PILImage.fromarray(img_contig)
+                                resample_filter = PILImage.Resampling.LANCZOS if hasattr(PILImage, 'Resampling') else PILImage.LANCZOS
+                                img = img.resize((new_w, new_h), resample_filter)
+                                img_array = np.array(img)
+                            else:
+                                print("Warning: 16-bit resize requires OpenCV. Saving in original size.")
+                        except ImportError:
+                            print("Warning: Neither cv2 nor PIL is available. Cannot resize image.")
+
             speed = avifSettings.speed.Value
             # print(CRF)
             # print(speed)
@@ -249,94 +283,7 @@ class AVIFCodec(cPy.cIO.cImageCodec):
     def CheckMagic(self, Magic: int, ext: str):
         return -1        
 
-def convert_to_avif(src_path: str, dst_path: str = None):
-    """
-    Конвертує будь-який формат, підтримуваний imagecodecs, в AVIF.
-    Якщо вхідні дані > 8 біт, зберігає як 12-бітний AVIF.
-    """
-    try:
-        if dst_path is None:
-            dst_path = os.path.splitext(src_path)[0] + ".avif"
 
-        img = cPy.cImage.cImage()
-        cPy.cIO.cIO.LoadImage(src_path, img)
-        cPy.cIO.cIO.SaveImage(dst_path, img)
-
-    except Exception as e:
-        print(f"Conversion Error for {src_path}: {e}")
-        return False
-
-
-
-@d_slot
-def ConvertToAvif():
-    tmpFile = coat.io.openFileDialog("*.*")
-    new_path = str(Path(tmpFile).with_suffix(".avif"))
-    if cPy.cCore.cREG.modalMessageBox("MyDialog", "MyDialogCaption", "Ok,Cancel", 1, avifSettings) == 1:
-        convert_to_avif(tmpFile, new_path)
-
-
-@d_slot
-def ConvertFolderToAvif():
-    # 1. Ініціалізація Tkinter (приховуємо головне вікно, щоб показати лише діалог)
-
-    print("Відкриваю діалог вибору теки...")
-
-    # 2. Відкриття системного діалогу вибору теки
-    folder_path = coat.io.openFileDialog("*.*")
-
-    # Перевірка, чи користувач щось вибрав
-    if not folder_path:
-        print("Скасовано: Теку не вибрано.")
-        return
-
-    # 3. Налаштування шляху та розширень
-    search_path = Path(folder_path).parent
-    # Враховуємо різні регістри (.JPG, .png) та розширення jpeg
-    target_extensions = {'.jpg', '.jpeg', '.png', '.avif'} 
-    
-    print(f"\nШукаю у: {folder_path}\n" + "-"*30)
-
-    # 4. Перебір файлів у теці
-    try:
-        # iterdir() проходить тільки по поточній теці (не заходить у підпапки)
-        if cPy.cCore.cREG.modalMessageBox("MyDialog", "MyDialogCaption", "Ok,Cancel", 1, avifSettings) == 1:
-            flcnt = 0
-            for file_path in search_path.iterdir():
-                flcnt += 1
-
-            flpos = 0    
-            for file_path in search_path.iterdir():
-                if file_path.is_file():
-                    # Перевіряємо розширення (переводимо в нижній регістр для порівняння)
-                    if file_path.suffix.lower() in target_extensions:
-                        print(file_path.name)
-                        tmpFile = file_path
-                        # avifSettings.speed.Value = 3
-                        # if file_path.suffix.lower() == ".png":
-                        #     avifSettings.quality.Value = 98
-                        # else:
-                        #     avifSettings.quality.Value = 70
-                        coat.io.progressBar(flpos, flcnt, "Convert "+str(file_path)+" to AVIF")
-                        new_path = str(Path(file_path).with_suffix(".avif"))
-                        convert_to_avif(str(tmpFile), str(new_path))
-                        flpos += 1
-
-    except PermissionError:
-        print("Помилка: Немає прав доступу до цієї теки.")
-        return
-
-
-# Create a separate section for our extension in the View menu.
-@d_menu_section(cTemplates.MainMenu.Scripts.Scripts_S_Useful)
-def MouseInfoSection():
-    # Add a menu item to this section that will enable and disable information about the mouse and cursor.
-    coat.menu_item(ConvertToAvif.UICmd()) 
-    coat.menu_item(ConvertFolderToAvif.UICmd()) 
-    
-
-
-# pillow_convert_12bit('input_16bit.png', 'output_12bit.avif')
 
 
 

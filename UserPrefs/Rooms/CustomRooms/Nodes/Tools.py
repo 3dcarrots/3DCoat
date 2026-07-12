@@ -1,5 +1,5 @@
 # 
-# The Sculpt (Voxels) room toolset definition.
+# The Paint room toolset definition.
 # 
 # Insert commands and conditions within the main(){...} function
 # use 
@@ -11,14 +11,12 @@
 # The command
 #   default_tool("IdentifierOfTheTool");
 # defines the tool used by default in the room.
-# 
-# 
+#
+
 import coat
-from cTemplates.Structs import *
-from cTemplates.sculptTools import * 
+from cTemplates.paintTools import PaintTools
 from cTemplates.Rooms import reg_toolset
 
 @reg_toolset
-def NGRoomTools():
-    SculptTools()
-
+def RegisterPaint():
+    PaintTools()

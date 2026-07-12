@@ -18,8 +18,8 @@ def Adjust():
     coat.tools_item("[VOX_SCULPT_TOOL]SCULPT_TRANSPOSE") # Pose
     coat.tools_item("[extension]SCULP_BEND") # Bend
     coat.tools_item("[VOX_SCULPT_TOOL]SCULP_MOVE") # Move
-    coat.tools_item("[VOX_SCULPT_TOOL]SCULP_SFREEZE") # Freeze
-    coat.tools_item("[VOX_SCULPT_TOOL]SurfHide") # Surface Hide                
+    # coat.tools_item("[VOX_SCULPT_TOOL]SCULP_SFREEZE") # Freeze
+    # coat.tools_item("[VOX_SCULPT_TOOL]SurfHide") # Surface Hide                
     coat.tools_item("[VOX_SCULPT_TOOL]IncRes") # Res+
     coat.default_tool("[extension]PaintFacture")
 

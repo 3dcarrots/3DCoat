@@ -25,7 +25,22 @@ class cFileDisk():
 	def __init__(self):
 		pass # CPP source
 
+	@staticmethod
+	def FilePathExists(Path: cPy.cTypes.cStr) -> bool:
+		pass # cpp source
+
 	def OpenRead(self, FilePn: str) -> bool:
+		'''
+			
+		Opens an existing file for reading.
+
+		Args:
+			FilePn (str): Path to the file.
+
+		Returns:
+			bool: true if opened successfully.
+		
+		'''
 		pass # cpp source
 
 	def CreateWrite(self, FilePn: str) -> bool:
@@ -1120,6 +1135,10 @@ class cIO():
 
 	@staticmethod
 	def GetInputPixelsHeight() -> int:
+		pass # cpp source
+
+	@staticmethod
+	def GetInputPixelsWidth() -> int:
 		pass # cpp source
 
 	@staticmethod

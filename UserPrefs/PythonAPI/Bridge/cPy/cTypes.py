@@ -7258,3 +7258,282 @@ class cMath():
 		'''
 		pass # cpp source
 
+
+
+class Rct():
+	'''
+			
+		Class for 2D rectangle manipulation.
+		Uses (x, y) coordinates for the top-left corner and (w, h) for width and height.
+		
+	'''
+
+	def __init__(self):
+		pass # CPP source
+
+	def __init__(self, _0: float, _1: float):
+		pass # CPP source
+
+	def __init__(self, _0: float, _1: float, _2: float):
+		pass # CPP source
+
+	def __init__(self, _0: float, _1: float, _2: float, _3: float):
+		pass # CPP source
+
+	def b(self) -> float:
+		'''
+			
+		 Returns the Y-coordinate of the bottom edge.
+		
+		'''
+		pass # cpp source
+
+	def r(self) -> float:
+		pass # cpp source
+
+	def GetAspect(self) -> float:
+		pass # cpp source
+
+	def MaxSide(self) -> float:
+		'''
+			
+		 Returns the length of the longer side.
+		
+		'''
+		pass # cpp source
+
+	def PtIn(self, pX: float, pY: float) -> bool:
+		'''
+			
+		 Checks if point (pX, pY) is inside the rectangle (inclusive of boundaries).
+		
+		'''
+		pass # cpp source
+
+	def PtInStrict(self, pX: float, pY: float) -> bool:
+		'''
+			
+		 Checks if point is strictly inside the rectangle (excluding boundaries).
+		
+		'''
+		pass # cpp source
+
+	def GetCenterX(self) -> float:
+		'''
+			
+		 Returns the X-coordinate of the rectangle's center.
+		
+		'''
+		pass # cpp source
+
+	def GetCenterY(self) -> float:
+		'''
+			
+		 Returns the Y-coordinate of the rectangle's center.
+		
+		'''
+		pass # cpp source
+
+	def Dist2ToPt(self, pX: float, pY: float) -> float:
+		'''
+			
+		 Calculates the squared distance from the rectangle to a given point.
+		
+		'''
+		pass # cpp source
+
+	def Copy(self, orig: Rct):
+		'''
+			
+		 Copies parameters from another rectangle.
+		
+		'''
+		pass # cpp source
+
+	def Deflate(self, amt: float):
+		'''
+			
+		 Expands the rectangle by a given amount in all directions (decreases x, y and increases w, h).
+		
+		'''
+		pass # cpp source
+
+	def Inflate(self, top: float, right: float, bottom: float, left: float):
+		'''
+			
+		 Adjusts rectangle boundaries by shifting each edge inward.
+		
+		'''
+		pass # cpp source
+
+	def Inflate(self, val: float):
+		'''
+			
+		 Expands the rectangle by a given amount in all directions (alias for Deflate behavior).
+		
+		'''
+		pass # cpp source
+
+	def FitInto(self, rct: Rct):
+		'''
+			
+		 Scales and fits the current rectangle into another one while preserving aspect ratio.
+		
+		'''
+		pass # cpp source
+
+	def CenterInto(self, rct: Rct):
+		'''
+			
+		 Centers the current rectangle relative to another one without changing its size.
+		
+		'''
+		pass # cpp source
+
+	def Set(self, _0: float, _1: float, _2: float, _3: float):
+		'''
+			
+		 Sets new coordinates and dimensions.
+		
+		'''
+		pass # cpp source
+
+	def Zero(self):
+		'''
+			
+		 Resets all parameters to zero.
+		
+		'''
+		pass # cpp source
+
+	def Overlap(self, rct: Rct) -> bool:
+		'''
+			
+		 Checks if this rectangle overlaps with another one.
+		
+		'''
+		pass # cpp source
+
+	def IsOutside(self, rct: Rct) -> bool:
+		'''
+			
+		 Checks if this rectangle is completely outside another one.
+		
+		'''
+		pass # cpp source
+
+	def Union(self, rct: Rct):
+		'''
+			
+		 Computes the union of this rectangle and another one (result covers both).
+		
+		'''
+		pass # cpp source
+
+	def AddPoint(self, x: float, y: float):
+		'''
+			
+		 Expands the rectangle to include the specified point.
+		
+		'''
+		pass # cpp source
+
+	def SetEmpty(self):
+		'''
+			
+		 Sets the rectangle to an "empty" state with extreme values.
+		
+		'''
+		pass # cpp source
+
+	def isEmpty(self) -> bool:
+		'''
+			
+		 Checks if the rectangle is empty (negative width or height).
+		
+		'''
+		pass # cpp source
+
+	def GetRight(self) -> float:
+		'''
+			
+		 Returns the X-coordinate of the right boundary.
+		
+		'''
+		pass # cpp source
+
+	def GetBottom(self) -> float:
+		'''
+			
+		 Returns the Y-coordinate of the bottom boundary.
+		
+		'''
+		pass # cpp source
+
+	def ClipSegment(self, a: any, b: any) -> bool:
+		'''
+			
+		 Clips a line segment (a, b) against the rectangle (Cohen-Sutherland algorithm).
+		
+		'''
+		pass # cpp source
+
+	def SetPositiveDimensions(self):
+		'''
+			
+		 Adjusts coordinates if width or height are negative to ensure they are positive.
+		
+		'''
+		pass # cpp source
+
+	def ClipHLine(self, px1: float, px2: float, py: float) -> bool:
+		'''
+			
+		 Clips a horizontal line against the rectangle boundaries.
+		
+		'''
+		pass # cpp source
+
+	def ClipVLine(self, px: float, py1: float, py2: float) -> bool:
+		'''
+			
+		 Clips a vertical line against the rectangle boundaries.
+		
+		'''
+		pass # cpp source
+
+	def Clip(self, rct: Rct) -> bool:
+		'''
+			
+		 Clips another rectangle 'rct' by the boundaries of this rectangle.
+		
+		'''
+		pass # cpp source
+
+	def IsRectInside(self, px: float, py: float, pw: float, ph: float) -> bool:
+		'''
+			
+		 Checks if another rectangle is entirely contained within this one.
+		
+		'''
+		pass # cpp source
+
+	def __imul__(self, val: float):
+		return super().__imul__(val)
+
+	def __itruediv__(self, val: float):
+		return super().__itruediv__(val)
+
+	def __iadd__(self, delta: any):
+		return super().__iadd__(delta)
+
+	def __iadd__(self, delta: Rct):
+		return super().__iadd__(delta)
+
+	def __eq__(self, v: Rct) -> bool:
+		return super().__eq__(v)
+
+	x: float #: float (T)  
+	y: float #: float (T)  
+	w: float #: float (T)  
+	h: float #: float (T)  

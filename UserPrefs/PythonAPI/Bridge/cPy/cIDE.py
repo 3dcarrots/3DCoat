@@ -244,8 +244,6 @@ class CLikeSourceProcessor():
 	def IsKeyWord(self, aToken: str) -> bool:
 		pass # cpp source
 
-	listOfStrings: any #: comms :: cList_cStr (T)  
-	listOfComments: any #: comms :: cList_cStr (T)  
 	@staticmethod
 	def copyFromCommentBody(source: cPy.cTypes.cStr) -> cPy.cTypes.cStr:
 		pass # cpp source

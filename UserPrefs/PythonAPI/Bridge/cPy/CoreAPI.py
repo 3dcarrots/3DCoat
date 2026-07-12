@@ -6400,6 +6400,38 @@ class ui():
 		'''
 		pass # cpp source
 
+	@staticmethod
+	def getFullUIDescriptionAsJSON() -> str:
+		pass # cpp source
+
+	@staticmethod
+	def getFullMenuMapAsJSON() -> str:
+		pass # cpp source
+
+	@staticmethod
+	def getActiveModalJSON() -> str:
+		pass # cpp source
+
+	@staticmethod
+	def getHoveredWidgetAsJSON() -> str:
+		pass # cpp source
+
+	@staticmethod
+	def getWidgetInfoAsJSON(widgetID: str) -> str:
+		pass # cpp source
+
+	@staticmethod
+	def isValidCommand(widgetID: str) -> bool:
+		pass # cpp source
+
+	@staticmethod
+	def pointOutUIElement(widgetID: str, message: str, dimDuration: int = 4000, highlightDuration: int = 8000) -> bool:
+		pass # cpp source
+
+	@staticmethod
+	def openMenuAndHighlight(menuPath: str, targetID: str, message: str, dimDuration: int = 4000, highlightDuration: int = 8000) -> str:
+		pass # cpp source
+
 
 
 class Camera():

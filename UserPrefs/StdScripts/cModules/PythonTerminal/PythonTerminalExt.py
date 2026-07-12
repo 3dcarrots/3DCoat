@@ -42,6 +42,8 @@ mainWindow = None
 
 class MainWindow(QMainWindow):
     textChanged = QtCore.Signal(str)
+    applyJavascriptSignal = QtCore.Signal(str)
+    showWindowSignal = QtCore.Signal()
     iStayOnTop = False
     scriptSource: cPy.cIDE.cHostScriptSource = None
 
@@ -253,6 +255,15 @@ class MainWindow(QMainWindow):
             cPy.cCore.cExtension.end_work_in_bg()
         else:
             event.ignore()
+
+    @Slot(str)
+    def onApplyJavascript(self, jsStr):
+        self.ConsolOutContent.runJavaScript(jsStr)
+
+    @Slot()
+    def onShowWindow(self):
+        self.show()
+        self.raise_()
     
 
     def __init__(self):
@@ -260,6 +271,9 @@ class MainWindow(QMainWindow):
         global gClose
         global lastPingTime
         super().__init__()
+
+        self.applyJavascriptSignal.connect(self.onApplyJavascript, Qt.QueuedConnection)
+        self.showWindowSignal.connect(self.onShowWindow, Qt.QueuedConnection)
 
         global mainWindow
         mainWindow = self
@@ -512,16 +526,15 @@ class PythonTerminal(cPy.cIDE.PythonTerminal):
             rpLast = "true"
 
         if self.lastMsgType == "PinJS":
-            self.mainWin.ConsolOutContent.runJavaScript("showPin('"+msgStr+"', "+ str(self.lastTime) +")")
-            self.mainWin.ConsolOutContent.runJavaScript(self.codeBuf)
+            self.mainWin.applyJavascriptSignal.emit("showPin('"+msgStr+"', "+ str(self.lastTime) +")")
+            self.mainWin.applyJavascriptSignal.emit(self.codeBuf)
         else:
-            self.mainWin.ConsolOutContent.runJavaScript("PushMessage('"+msgStr+"', '"+codeStr+"', '"+ self.lastMsgType +"', "+ str(self.lastTime) +", "+rpLast+")")
+            self.mainWin.applyJavascriptSignal.emit("PushMessage('"+msgStr+"', '"+codeStr+"', '"+ self.lastMsgType +"', "+ str(self.lastTime) +", "+rpLast+")")
         self.messageBuf = ""
         self.codeBuf = ""
 
         if self.lastMsgType == "stdErr" or  self.lastMsgType == "ERROR":
-            self.mainWin.show()
-            self.mainWin.raise_()
+            self.mainWin.showWindowSignal.emit()
         
 
     def OnMessage(self, type_name, message, aCode, message_time, replace_last):

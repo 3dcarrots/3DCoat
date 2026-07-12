@@ -1,23 +1,23 @@
 <DockLayoutElement>
 	<Ordering>-1</Ordering>
 	<x>0.000000</x>
-	<y>48.000000</y>
-	<Width>2560.000000</Width>
-	<Height>1466.000000</Height>
+	<y>52.000000</y>
+	<Width>1920.000000</Width>
+	<Height>988.000000</Height>
 	<SubDocks>
 		<DockLayoutElement>
 			<Ordering>0</Ordering>
 			<x>0.000000</x>
 			<y>0.000000</y>
-			<Width>2186.000000</Width>
-			<Height>1466.000000</Height>
+			<Width>1639.000000</Width>
+			<Height>988.000000</Height>
 			<SubDocks>
 				<DockLayoutElement>
 					<Ordering>-1</Ordering>
 					<x>0.000000</x>
 					<y>0.000000</y>
-					<Width>2186.000000</Width>
-					<Height>1466.000000</Height>
+					<Width>1639.000000</Width>
+					<Height>988.000000</Height>
 					<SubDocks></SubDocks>
 					<CurrElement></CurrElement>
 					<WindowsNames></WindowsNames>
@@ -32,31 +32,31 @@
 		</DockLayoutElement>
 		<DockLayoutElement>
 			<Ordering>2</Ordering>
-			<x>2189.000000</x>
+			<x>1642.000000</x>
 			<y>0.000000</y>
-			<Width>371.000000</Width>
-			<Height>1466.000000</Height>
+			<Width>278.000000</Width>
+			<Height>988.000000</Height>
 			<SubDocks>
 				<DockLayoutElement>
 					<Ordering>1</Ordering>
 					<x>0.000000</x>
 					<y>0.000000</y>
-					<Width>371.000000</Width>
-					<Height>1466.000000</Height>
+					<Width>278.000000</Width>
+					<Height>988.000000</Height>
 					<SubDocks>
 						<DockLayoutElement>
 							<Ordering>2</Ordering>
 							<x>0.000000</x>
 							<y>0.000000</y>
-							<Width>371.000000</Width>
-							<Height>1466.000000</Height>
+							<Width>278.000000</Width>
+							<Height>988.000000</Height>
 							<SubDocks>
 								<DockLayoutElement>
 									<Ordering>-2</Ordering>
 									<x>0.000000</x>
 									<y>0.000000</y>
-									<Width>371.000000</Width>
-									<Height>772.000000</Height>
+									<Width>278.000000</Width>
+									<Height>520.000000</Height>
 									<SubDocks></SubDocks>
 									<CurrElement>RetopoGroups</CurrElement>
 									<WindowsNames>
@@ -69,9 +69,9 @@
 								<DockLayoutElement>
 									<Ordering>-2</Ordering>
 									<x>0.000000</x>
-									<y>775.000000</y>
-									<Width>371.000000</Width>
-									<Height>691.000000</Height>
+									<y>523.000000</y>
+									<Width>278.000000</Width>
+									<Height>465.000000</Height>
 									<SubDocks></SubDocks>
 									<CurrElement>VoxTree</CurrElement>
 									<WindowsNames>
@@ -105,18 +105,6 @@
 	<WindowsNames></WindowsNames>
 	<wps>
 		<WindowPos>
-			<WndName>TOOL_PARAM0_SINGLE</WndName>
-			<EnableTopmost>true</EnableTopmost>
-			<EnablePopup>true</EnablePopup>
-			<x>-192</x>
-			<y>50</y>
-			<tpX>123</tpX>
-			<tpY>76</tpY>
-			<EnableSize>true</EnableSize>
-			<Width>250</Width>
-			<Height>541</Height>
-		</WindowPos>
-		<WindowPos>
 			<WndName>VoxTree_SINGLE</WndName>
 			<EnableTopmost>true</EnableTopmost>
 			<EnablePopup>true</EnablePopup>
@@ -127,6 +115,18 @@
 			<EnableSize>true</EnableSize>
 			<Width>222</Width>
 			<Height>360</Height>
+		</WindowPos>
+		<WindowPos>
+			<WndName>TOOL_PARAM0_SINGLE</WndName>
+			<EnableTopmost>true</EnableTopmost>
+			<EnablePopup>true</EnablePopup>
+			<x>-192</x>
+			<y>50</y>
+			<tpX>176</tpX>
+			<tpY>54</tpY>
+			<EnableSize>true</EnableSize>
+			<Width>244</Width>
+			<Height>83</Height>
 		</WindowPos>
 	</wps>
 	<Pops></Pops>

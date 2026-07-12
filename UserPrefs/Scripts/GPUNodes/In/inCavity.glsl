@@ -19,4 +19,4 @@ concave = 1.0-Mask*2.0;
 convex = clamp((convex-0.5+Shift)*Sharpness+0.5, 0.0, 1.0);
 concave = clamp((concave-0.5+Shift)*Sharpness+0.5, 0.0, 1.0);
 
-Mask = (Mask-0.5+Shift)*Sharpness+0.5;
+Mask = clamp((Mask-0.5+Shift)*Sharpness+0.5, 0.0, 1.0);

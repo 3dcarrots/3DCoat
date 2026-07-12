@@ -20,8 +20,8 @@
     #endif 
  
 	void main( 
-		in vec3 Coord(value= (1,1,1,1), knot= ioFragCoord, expression= R=V*K, min= -10.0, max= 10.0),  
-		in float Scale(value= 1, min= -10.0, max= 10.0), 
+		in vec3 Coord(value= (1,1,1,1, expression= R=(V*K)), knot= ioFragCoord, expression= R=V*K, min= -10.0, max= 10.0),  
+		in float Scale(value= 1, min= -10.0, max= 10.0, expression= R=(V*K)), 
 		out vec4 Result(color = (1,0,0,1)) 
 		) 
 	{ 
@@ -45,11 +45,11 @@
             fStep++; 
             float iStep2 = fStep * fStep; 
             #if UseStepsCurve 
-				iStep2 *= StepsCurve[iStep*255/Steps]; 
+				iStep2 *= StepsCurve[iStep*255/Steps].x; 
           	#endif 
            
            
-            vec3 p = Coord.xyz * iScale*0.1; 
+            vec3 p = Coord * iScale*0.1; 
 			#if ChannelCount > 0 
             p+= uvShift; 
             #endif 

@@ -49,6 +49,7 @@ def ImportMenu():
        - Textures.Import extensions
        """
        coat.menu_item("LOADTEX") # Color/albedo Map
+       coat.menu_item("IMPORT_MULTIPLE_UDIMS") # Import Multiple UDIM Textures
        coat.menu_item("IMPORT_LAYERS_FROM_FILE") # Layers Color
        coat.menu_separator()
        coat.menu_item("ExternalAO") # External AO

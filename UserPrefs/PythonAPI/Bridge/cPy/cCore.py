@@ -8,6 +8,38 @@ from typing import TypeAlias
 from typing import Any
 from enum import Enum
 
+def VoxelExts():
+		'''
+			
+	#ifndef PY_PARSER
+	
+		'''
+		pass # cpp source
+
+def VoxelMenuExts():
+		'''
+			
+	#ifndef PY_PARSER
+	
+		'''
+		pass # cpp source
+
+def VoxelExt(idx: int):
+		'''
+			
+	#ifndef PY_PARSER
+	
+		'''
+		pass # cpp source
+
+def GetExtByID(id: int):
+		'''
+			
+	#ifndef PY_PARSER
+	
+		'''
+		pass # cpp source
+
 
 class BaseClass():
 	'''
@@ -17,6 +49,7 @@ class BaseClass():
 		
 	'''
 
+	is_py_owned: bool #: bool (T)  This variable tells who will delete the object if the object is owned by python (if it was created in python) - it will not be deleted automatically when deleting or clearing the ClassArray 
 	def __init__(self):
 		pass # CPP source
 
@@ -320,7 +353,7 @@ class BaseClass():
 	def GetElementLevel(self, EName: str) -> int:
 		pass # cpp source
 
-	def OnCreateControlFromScratch(self, Context: any, Rect: any) -> any:
+	def OnCreateControlFromScratch(self, Context: any, Rect: cPy.cTypes.Rct) -> any:
 		pass # cpp source
 
 	def OnModifyControl(self, FieldName: str, W: any, Context: any):
@@ -359,6 +392,9 @@ class BaseClass():
 	def GetCmdID(self) -> str:
 		pass # cpp source
 
+	def isNotParent(self) -> bool:
+		pass # cpp source
+
 	def SetParents(self):
 		pass # cpp source
 
@@ -385,6 +421,743 @@ class BaseClass():
 
 	@staticmethod
 	def Serialization() -> bool:
+		pass # cpp source
+
+
+
+class cTool(BaseClass):
+	'''
+			
+		Class for tools.
+		
+	'''
+
+
+	@staticmethod
+	def dynamic_cast(pObject : BaseClass)->cTool:
+		'''
+		An analogue of the dynamic_cast function from C++, it checks whether the object pObject is a cTool class or its descendant, and if so, returns the specified object, but of the cTool type.
+		'''
+		pass # cpp source
+
+	def __init__(self):
+		pass # CPP source
+
+	ID: int #: int (T)  
+	CustomName: cPy.cTypes.cStr #: cStr (T)  Custom name of the tool. 
+	SourceIcon: cPy.cTypes.cStr #: cStr (T)  Path to the tool's icon. 
+	CmdID: cPy.cTypes.cStr #: cStr (T)  Command identifier for calling the tool. 
+	BaseParentTool: cPy.cTypes.cStr #: cStr (T)  Used if tool duplicated. This is very base of the tool, it does not changes when tool duplicated. This is like "grand-grand...father" 
+	PreviousParentTool: cPy.cTypes.cStr #: cStr (T)  This is ID of parent, like "father" tool 
+	key: cPy.cTypes.cStr #: cStr (T)  Encryption key for saving presets. 
+	IsActive: bool #: bool (T)  Indicates whether the tool is currently active. 
+	AppearsInSmoothActions: bool #: bool (T)  Indicates if the tool applies during smoothing actions. 
+	Current: cTool = Coat_CPP.cTool.Current #: static cTool * (T)  Pointer to the currently active tool. 
+	GeneralUsage: bool = Coat_CPP.cTool.GeneralUsage #: static bool (T)  `true` if `cTool` used outside of voxel room. 
+	PrevInterpValue: float #: float (T)  Previous interpolation value. 
+	PrevInterp: bool #: bool (T)  Previous interpolation state. 
+	AbleToSnap: bool #: bool (T)  Indicates if the tool supports snapping. 
+	ActivatedMandatory: bool #: bool (T)  Flag for mandatory tool activation. 
+	SomethingChanged: bool = Coat_CPP.cTool.SomethingChanged #: static bool (T)  Global flag indicating changes in the scene. 
+	ExtHash: int = Coat_CPP.cTool.ExtHash #: static int (T)  Extension hash. 
+	TemporaryDisablePresetActivation: bool = Coat_CPP.cTool.TemporaryDisablePresetActivation #: static bool (T)  Temporarily disables preset activation. 
+	def GetFullID(self) -> str:
+		pass # cpp source
+
+	def AssignExternalIcon(self, iconname: str):
+		pass # cpp source
+
+	def ChooseIcon(self):
+		pass # cpp source
+
+	def Activate(self):
+		pass # cpp source
+
+	@staticmethod
+	def Register(ex: cTool) -> any:
+		'''
+			
+		Call this function to register own extension.
+		
+		Go to cTool.cpp, include your header,
+		call cTool::Register in function RegisterVoxelExtensions().
+		
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def GetHook() -> cTool:
+		pass # cpp source
+
+	@staticmethod
+	def find(id: str) -> cTool:
+		pass # cpp source
+
+	@staticmethod
+	def CheckFieldPresence(FieldName: str) -> bool:
+		pass # cpp source
+
+	def SwitchTo(self):
+		'''
+			
+		 Please use this function to activate the tool
+		
+		'''
+		pass # cpp source
+
+	def GetID(self) -> str:
+		'''
+			
+		 Define Textual ID in tools list.
+		
+		'''
+		pass # cpp source
+
+	def CheckParentTool(self, _0: int) -> bool:
+		pass # cpp source
+
+	def OnActivatePreset(self):
+		pass # cpp source
+
+	def NeedToStoreToolPreset(self) -> bool:
+		pass # cpp source
+
+	def RestoreExtensionPreset(self):
+		pass # cpp source
+
+	def StoreExtensionPreset(self, asPreset: bool = False):
+		pass # cpp source
+
+	def OnPlaceInUI(self):
+		pass # cpp source
+
+	def GetPresetFileName(self) -> cPy.cTypes.cStr:
+		pass # cpp source
+
+	def AllowUVIslandsPreview(self) -> bool:
+		pass # cpp source
+
+	def OverrideCluster(self, cl: int) -> any:
+		pass # cpp source
+
+	def GetPlacementPriory(self) -> int:
+		pass # cpp source
+
+	def GetPrevTool(self) -> str:
+		pass # cpp source
+
+	def PresentInVoxelTools(self) -> bool:
+		pass # cpp source
+
+	def MayModifyVoxelsAsSurface(self) -> bool:
+		pass # cpp source
+
+	def PresentInSurfaceTools(self) -> bool:
+		'''
+			
+		 Returns `true` if the tool is present in voxel surface toolset.
+		
+		'''
+		pass # cpp source
+
+	def PresentInRetopoTools(self) -> bool:
+		pass # cpp source
+
+	def PresentInUvTools(self) -> bool:
+		pass # cpp source
+
+	def PresentInPaintTools(self) -> bool:
+		pass # cpp source
+
+	def PresentInTweakTools(self) -> bool:
+		pass # cpp source
+
+	def PresentInPhotogrammetryTools(self) -> bool:
+		pass # cpp source
+
+	def PresentInRoom(self, RoomName: str) -> bool:
+		pass # cpp source
+
+	def CreateToolset(self) -> bool:
+		'''
+			
+		Create toolset on the top line.
+		\see VoxelSculptTool::CreateToolset() as example
+		
+		'''
+		pass # cpp source
+
+	def CreateInterface(self, Where: any) -> bool:
+		'''
+			
+		 Creates parameters plate of this tool.
+		
+		'''
+		pass # cpp source
+
+	def Process(self):
+		pass # cpp source
+
+	def Render(self):
+		pass # cpp source
+
+	def RenderPreviewAsVolume(self, Sh: int):
+		pass # cpp source
+
+	def OnLMB_Down(self) -> bool:
+		pass # cpp source
+
+	def OnLMB_Up(self) -> bool:
+		pass # cpp source
+
+	def OnDBL(self) -> bool:
+		pass # cpp source
+
+	def OnMMB_Down(self) -> bool:
+		pass # cpp source
+
+	def OnMMB_Up(self) -> bool:
+		pass # cpp source
+
+	def OnRMB_Down(self) -> bool:
+		pass # cpp source
+
+	def OnRMB_Up(self) -> bool:
+		pass # cpp source
+
+	def OnUndo(self) -> bool:
+		pass # cpp source
+
+	def OnRedo(self) -> bool:
+		pass # cpp source
+
+	def DisableRedo(self) -> bool:
+		pass # cpp source
+
+	def OnWheel(self, step: int) -> bool:
+		pass # cpp source
+
+	def AllowIncrementalRender(self) -> bool:
+		pass # cpp source
+
+	def OnKey(self, KeyCode: any) -> bool:
+		pass # cpp source
+
+	def AllowMMBNavigation(self) -> bool:
+		pass # cpp source
+
+	def AllowRMBNavigation(self) -> bool:
+		pass # cpp source
+
+	def AllowRadisRMBControl(self) -> bool:
+		pass # cpp source
+
+	def CanDrawInFreeSpace(self) -> bool:
+		pass # cpp source
+
+	def OnActivate(self):
+		pass # cpp source
+
+	def OnDeActivate(self):
+		pass # cpp source
+
+	def IsToolsAction(self) -> bool:
+		pass # cpp source
+
+	def OnClear(self):
+		pass # cpp source
+
+	def ClearMyToolPreset(self):
+		pass # cpp source
+
+	def OnClearVolume(self):
+		pass # cpp source
+
+	def OnIncRes(self) -> bool:
+		pass # cpp source
+
+	def OnResample(self) -> bool:
+		pass # cpp source
+
+	def OnSmoothAll(self) -> bool:
+		pass # cpp source
+
+	def OnChangeCurVolume(self, newCur: any):
+		pass # cpp source
+
+	def OnChangeCurVolumeManually(self, newCur: any):
+		pass # cpp source
+
+	def OnVoxelize(self):
+		pass # cpp source
+
+	def OnMakeSurface(self):
+		pass # cpp source
+
+	def DisableRadiusVariation(self) -> bool:
+		pass # cpp source
+
+	def DrawOnPlane(self) -> bool:
+		pass # cpp source
+
+	def AbleToDrawOnPlane(self) -> bool:
+		pass # cpp source
+
+	def OnRectSelectionEnd(self, R: cPy.cTypes.Rct) -> bool:
+		pass # cpp source
+
+	@staticmethod
+	def SafeRectSelection(R: cPy.cTypes.Rct) -> bool:
+		pass # cpp source
+
+	def ApplyEnterInCurves(self) -> bool:
+		'''
+			
+		 \brief Determines if the tool applies the 'Enter' key action specifically within curve editing.
+		
+		'''
+		pass # cpp source
+
+	def AllowRectSelection(self) -> bool:
+		pass # cpp source
+
+	def AllowOnlyRectSelection(self) -> bool:
+		pass # cpp source
+
+	def ApplyCurvesAsRectSelection(self) -> bool:
+		pass # cpp source
+
+	def AllowStamp(self) -> bool:
+		pass # cpp source
+
+	def AllowLinesDrawing(self) -> bool:
+		pass # cpp source
+
+	def AllowRectDrawing(self) -> bool:
+		pass # cpp source
+
+	def AllowLassoDrawing(self) -> bool:
+		pass # cpp source
+
+	def AllowCircleDrawing(self) -> bool:
+		pass # cpp source
+
+	def NeedToClearPointsOnDBLClick(self) -> bool:
+		pass # cpp source
+
+	def Use3DLasso(self) -> bool:
+		pass # cpp source
+
+	def Snap3DLasso(self) -> bool:
+		pass # cpp source
+
+	def AllowRemoveStretching(self) -> bool:
+		pass # cpp source
+
+	def AllowDrag(self) -> bool:
+		pass # cpp source
+
+	def OnDraw(self):
+		pass # cpp source
+
+	def NeedTrajectory(self) -> int:
+		'''
+			
+		
+		
+		Returns `1` if you need to construct brush trajectory with `TMaster` including end points
+		and `2` if you need to include start point in trajectory,
+		`0` if you don't need `TMaster` at all.
+		
+		'''
+		pass # cpp source
+
+	def NeedConstructTrajectory(self) -> bool:
+		pass # cpp source
+
+	def AutoFadeOnEdge(self) -> bool:
+		pass # cpp source
+
+	def UseBezierTrajectorySmoothing(self) -> bool:
+		pass # cpp source
+
+	def NeedFirstPoint(self) -> bool:
+		pass # cpp source
+
+	def OverrideSpacing(self, Spots: bool) -> float:
+		pass # cpp source
+
+	def NeedGlobalIndexing(self) -> bool:
+		pass # cpp source
+
+	def NeedFacesAdjacensy(self) -> bool:
+		pass # cpp source
+
+	def NeedBrushMipmaps(self) -> bool:
+		pass # cpp source
+
+	def PickAveragePos(self) -> bool:
+		pass # cpp source
+
+	def PickCurrentPos(self) -> bool:
+		pass # cpp source
+
+	def NeedAutoCellsSubdivision(self) -> bool:
+		pass # cpp source
+
+	def CheckIfToolIsBeta(self) -> bool:
+		pass # cpp source
+
+	def MayActThroughVolumes(self) -> bool:
+		pass # cpp source
+
+	def NeedPenControls(self) -> bool:
+		pass # cpp source
+
+	def SkipFaloffControls(self) -> bool:
+		pass # cpp source
+
+	def OverridesBrushRotationJitterSpacing(self) -> bool:
+		pass # cpp source
+
+	def NeedDepthControls(self) -> bool:
+		pass # cpp source
+
+	def SupportRectSurfDistortion(self) -> bool:
+		pass # cpp source
+
+	def NeedBorderShape(self) -> bool:
+		pass # cpp source
+
+	def AllowGrowOnPenMotion(self) -> bool:
+		pass # cpp source
+
+	def PickOnlyFirstPoint(self) -> bool:
+		pass # cpp source
+
+	def PickEmptySpace(self) -> bool:
+		pass # cpp source
+
+	def MayChangeTopology(self) -> bool:
+		pass # cpp source
+
+	def UseInterpolationByDefault(self, _0: float) -> bool:
+		pass # cpp source
+
+	def OnEndOfStroke(self, ob: any):
+		pass # cpp source
+
+	def SnapMidPoints(self) -> bool:
+		pass # cpp source
+
+	def GetMimickTool(self) -> int:
+		pass # cpp source
+
+	def SkipSurfWarning(self) -> bool:
+		pass # cpp source
+
+	def AllowInvertAction(self) -> bool:
+		pass # cpp source
+
+	def NeedFlatternCurve(self, v0: float, v1: float) -> bool:
+		pass # cpp source
+
+	def NeedSplinesMenu(self) -> bool:
+		pass # cpp source
+
+	def RequiresPresetActivation(self) -> bool:
+		pass # cpp source
+
+	def GetTrackingSpacing(self) -> float:
+		pass # cpp source
+
+	def AllowSplineStroke(self) -> int:
+		'''
+			
+		 0 - disable, 1 - allow, 2 - in 2D mode
+		
+		'''
+		pass # cpp source
+
+	def GetRadiusMod(self) -> float:
+		pass # cpp source
+
+	def SupportsSelCentering(self) -> bool:
+		pass # cpp source
+
+	def AllowAutoPick(self) -> int:
+		pass # cpp source
+
+	def GetPrim(self) -> any:
+		pass # cpp source
+
+	def AllowSamplingRadius(self) -> bool:
+		pass # cpp source
+
+	def OverridePositionalSamplingRadius(self) -> float:
+		pass # cpp source
+
+	def AllowBuildup(self) -> bool:
+		pass # cpp source
+
+	def AllowStrightHandler(self) -> bool:
+		pass # cpp source
+
+	def AllowCubeHandler(self) -> bool:
+		pass # cpp source
+
+	def AllowMixedPicking(self) -> bool:
+		pass # cpp source
+
+	def NeedCubicTrajectory(self) -> bool:
+		pass # cpp source
+
+	def NeedsDepthLimitInEPanel(self) -> bool:
+		pass # cpp source
+
+	def IgnoreNaviEvent(self, Event: any) -> bool:
+		pass # cpp source
+
+	def RequiresExtraTopLine(self) -> int:
+		pass # cpp source
+
+	def OnCreateTopToolPanel(self):
+		pass # cpp source
+
+	def AllowShiftSmooth(self) -> bool:
+		'''
+			
+		 You may disable smoothing with shift.
+		
+		'''
+		pass # cpp source
+
+	def OnPresetActivation(self, PS: any):
+		pass # cpp source
+
+	def OnCreatePreset(self, PS: any):
+		'''
+			
+		 Called when preset created manually by user.
+		
+		'''
+		pass # cpp source
+
+	def AllowAdditiveSelection(self) -> bool:
+		'''
+			
+		called to add transformed proxy objects into scene
+		
+		'''
+		pass # cpp source
+
+	def TransformInRetopo(self, m: cPy.cTypes.cMat4):
+		pass # cpp source
+
+	def OnSelectModelInPalette(self, ModelName: str, RootPath: str, InCurrentTool: bool) -> bool:
+		'''
+			
+		 Called when user chosen model in models palette, return `true` if model used and action captured.
+		
+		'''
+		pass # cpp source
+
+	def GetNumSaveChunks(self) -> int:
+		pass # cpp source
+
+	def GetSaveMagic(self, ChunkIdx: int) -> int:
+		pass # cpp source
+
+	def LoadData(self, ChunkIdx: int, BS: any):
+		pass # cpp source
+
+	def SaveData(self, ChunkIdx: int, BS: any):
+		'''
+			
+		Store data to the 3B file using Bin stream.
+		
+		This function will be called 2 times during saving -
+		once for size calculation, second - actually for saving.
+		
+		'''
+		pass # cpp source
+
+	def BeforeSave(self, filename: str):
+		'''
+			
+		BeforeSave called each time before saving scene.
+		
+		'''
+		pass # cpp source
+
+	def onApply(self) -> bool:
+		'''
+			
+		Perform action by ENTER key and return `true` if tool does not allow default ENTER action.
+		
+		'''
+		pass # cpp source
+
+	def GetBottomOffset(self) -> float:
+		pass # cpp source
+
+	def NeedPutPointOnSurfaceInSoftStrokeMode(self) -> bool:
+		pass # cpp source
+
+	def RenderGuides(self):
+		pass # cpp source
+
+	def GetClipPlane(self, pl: any) -> bool:
+		pass # cpp source
+
+	def SupportsMultithreadedePicking(self) -> bool:
+		pass # cpp source
+
+	def OnPick(self, x: float, y: float, pic: any):
+		pass # cpp source
+
+	def GetCmdID(self) -> str:
+		pass # cpp source
+
+	def SnapIsActive(self) -> bool:
+		pass # cpp source
+
+	def SnapPoint(self, pt: any) -> bool:
+		pass # cpp source
+
+	def NeedToClearLeakyPosDuringUndo(self) -> bool:
+		pass # cpp source
+
+	def ZeroPressureOutsideTheObject(self) -> bool:
+		pass # cpp source
+
+	def ZeroRadiusOutsideTheObject(self) -> bool:
+		pass # cpp source
+
+	def IgnoreFieldInTopPanel(self, FieldName: str) -> bool:
+		pass # cpp source
+
+	@staticmethod
+	def IgnoreFieldInUI(FieldName: str) -> bool:
+		pass # cpp source
+
+	def SmoothAllSelectedOnly(self) -> bool:
+		pass # cpp source
+
+	def SupportsAutoRetopoMeshUpdate(self) -> bool:
+		pass # cpp source
+
+	def TopologyNeverChanges(self) -> bool:
+		pass # cpp source
+
+	def HasOwnStampModeHandler(self) -> bool:
+		pass # cpp source
+
+	def OnCreateNewCurve(self, cu: any):
+		pass # cpp source
+
+	def BeforeGizmolessTransform(self, dropUndo: bool, resPivot: cPy.cTypes.cVec3) -> bool:
+		pass # cpp source
+
+	def TransformSelected(self, OVR: cPy.cTypes.cMat4, InitialCapPoint: cPy.cTypes.cVec3) -> bool:
+		pass # cpp source
+
+	def OnSelectItem(self, Category: str):
+		pass # cpp source
+
+	def AnswerQuestion(self, question: str, data: BaseClass, answer: cPy.cTypes.cStr) -> int:
+		'''
+			
+		 return the priority of the answer, 0 - the answer is unknown, anything above means higher priority
+		
+		'''
+		pass # cpp source
+
+	def OnTransformEverything(self, m_visual: cPy.cTypes.cMat4, m_export: cPy.cTypes.cMat4):
+		pass # cpp source
+
+
+
+class CommandButton(cTool):
+	'''
+			
+		Register as usual cTool::Register(new MyButton);
+		
+	'''
+
+
+	@staticmethod
+	def dynamic_cast(pObject : BaseClass)->CommandButton:
+		'''
+		An analogue of the dynamic_cast function from C++, it checks whether the object pObject is a CommandButton class or its descendant, and if so, returns the specified object, but of the CommandButton type.
+		'''
+		pass # cpp source
+
+	def IsToolsAction(self) -> bool:
+		pass # cpp source
+
+	def GetID(self) -> str:
+		pass # cpp source
+
+	def GetPrevTool(self) -> str:
+		pass # cpp source
+
+	def PresentInRoom(self, RoomName: str) -> bool:
+		pass # cpp source
+
+	def OnActivate(self):
+		pass # cpp source
+
+
+
+class MainMenuExtension(BaseClass):
+
+	@staticmethod
+	def dynamic_cast(pObject : BaseClass)->MainMenuExtension:
+		'''
+		An analogue of the dynamic_cast function from C++, it checks whether the object pObject is a MainMenuExtension class or its descendant, and if so, returns the specified object, but of the MainMenuExtension type.
+		'''
+		pass # cpp source
+
+	@staticmethod
+	def Register(ex: MainMenuExtension):
+		'''
+			
+		 Call this function to register own extension
+		
+		'''
+		pass # cpp source
+
+	def GetNumLines(self) -> int:
+		'''
+			
+		 Number of lines in Voxels RMB menu
+		
+		'''
+		pass # cpp source
+
+	def GetID(self, Line: int) -> str:
+		pass # cpp source
+
+	def GetHint(self, Line: int) -> str:
+		pass # cpp source
+
+	def GetSubmenuID(self) -> str:
+		pass # cpp source
+
+	def GetHostMenu(self) -> str:
+		pass # cpp source
+
+	def IsInRMBMenu(self) -> bool:
+		pass # cpp source
+
+	def IsInMainMenu(self) -> bool:
+		pass # cpp source
+
+	def GetPrevItemID(self) -> str:
+		pass # cpp source
+
+	def Perform(self, idx: int):
 		pass # cpp source
 
 
@@ -676,7 +1449,7 @@ class cREG():
 		pass # cpp source
 
 	@staticmethod
-	def Rect(rect: any):
+	def Rect(rect: cPy.cTypes.Rct):
 		'''
 			
 		register Rct
@@ -872,6 +1645,83 @@ class LinkedObject(BaseClass):
 	Scaling: float #: float (T)  
 	TopologyLocked: bool #: bool (T)  
 	objectPath: any #: comms :: cStr (T)  
+
+
+class WindowsManager(BaseClass):
+
+	@staticmethod
+	def dynamic_cast(pObject : BaseClass)->WindowsManager:
+		'''
+		An analogue of the dynamic_cast function from C++, it checks whether the object pObject is a WindowsManager class or its descendant, and if so, returns the specified object, but of the WindowsManager type.
+		'''
+		pass # cpp source
+
+	def __init__(self):
+		pass # CPP source
+
+	def __init__(self) -> any:
+		pass # CPP source
+
+	def OnInit(self):
+		pass # cpp source
+
+	def OnUpdate(self):
+		pass # cpp source
+
+	def OnClose(self):
+		pass # cpp source
+
+	def RenderWidgetToTexture(self, widgetName: str, width: int, height: int) -> int:
+		pass # cpp source
+
+	def GetTexturePixels(self, fboID: int) -> any:
+		pass # cpp source
+
+	def RequestTexturePixels(self, fboID: int):
+		pass # cpp source
+
+	def GetTexturePixels(self, fboID: int, img: any) -> bool:
+		pass # cpp source
+
+	def FreeTexturePixelsBuffer(self, fboID: int):
+		pass # cpp source
+
+	def IsTexturePixelsReady(self, fboID: int) -> bool:
+		pass # cpp source
+
+	def InjectMouseEvent(self, widgetName: str, msg: int, x: int, y: int, flags: int):
+		pass # cpp source
+
+	def InjectWheelEvent(self, widgetName: str, delta: int, x: int, y: int, flags: int):
+		pass # cpp source
+
+	def InjectKeyEvent(self, widgetName: str, msgId: int, keyCode: int, flags: int):
+		pass # cpp source
+
+	def GetEditableWidgetAt(self, widgetName: str, x: int, y: int) -> any:
+		pass # cpp source
+
+	def InjectWidgetValue(self, widgetName: str, x: int, y: int, valStr: str):
+		pass # cpp source
+
+	def SetBlockNativeInput(self, block: bool):
+		pass # cpp source
+
+	def GetFocusedTextWidget(self, widgetName: str) -> any:
+		pass # cpp source
+
+	def GetWidgetScreenRect(self, widgetName: str) -> any:
+		pass # cpp source
+
+	def OnUndockToQt(self, widgetName: str):
+		pass # cpp source
+
+	m_fboID: int #: int (T)  
+	m_fboWidth: int #: int (T)  
+	m_fboHeight: int #: int (T)  
+	WM_LMB: bool #: bool (T)  
+	WM_MMB: bool #: bool (T)  
+	WM_RMB: bool #: bool (T)  
 
 
 class cColorSelectorInterface():
@@ -1269,6 +2119,18 @@ class ExtensionManager(BaseClass):
 		pass # cpp source
 
 	def RefreshInstalledList(self):
+		pass # cpp source
+
+	def IsAnyMouseButtonDown(self) -> bool:
+		pass # cpp source
+
+	def IsLMBDown(self) -> bool:
+		pass # cpp source
+
+	def IsRMBDown(self) -> bool:
+		pass # cpp source
+
+	def IsMMBDown(self) -> bool:
 		pass # cpp source
 
 	@staticmethod

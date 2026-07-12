@@ -64,6 +64,7 @@ def S_3DPrintBase():
               coat.tools_item("{transform}[VOX_SCULPT_TOOL]SCULP_INST") # Instancer
               coat.tools_item("[VOX_SCULPT_TOOL]SCULP_MOVE") # Move
               coat.tools_item("[extension]CutOff") # Cut Off
+              coat.tools_item("[extension]LineSplitter")
               coat.tools_item("[extension]Measure") # Measure
               coat.tools_item("[extension]Supports") # Supports
               coat.tools_item("{BEND}[extension]SCULP_BEND") # Bend
@@ -113,6 +114,7 @@ def V_3DPrintBase():
               coat.tools_item("{transform}[VOX_SCULPT_TOOL]SCULP_INST") # Instancer
               coat.tools_item("[VOX_SCULPT_TOOL]SCULP_MOVE") # Move
               coat.tools_item("[extension]CutOff") # Cut Off
+              coat.tools_item("[extension]LineSplitter")
               coat.tools_item("[extension]Measure") # Measure
               coat.tools_item("[extension]Supports") # Supports
               coat.tools_item("{BEND}[extension]SCULP_BEND") # Bend

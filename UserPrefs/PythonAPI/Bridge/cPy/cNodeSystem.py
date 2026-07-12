@@ -13,12 +13,6 @@ from enum import Enum
 
 
 class NodeGraph(cPy.cCore.BaseClass):
-	'''
-			
-		
-		
-	'''
-
 
 	@staticmethod
 	def dynamic_cast(pObject : cPy.cCore.BaseClass)->NodeGraph:
@@ -31,19 +25,24 @@ class NodeGraph(cPy.cCore.BaseClass):
 	Folder: cPy.cTypes.cStr #: cStr (T)  
 	Name: cPy.cTypes.cStr #: cStr (T)  
 	LayerName: cPy.cTypes.cStr #: cStr (T)  
+	GraphUID: cPy.cTypes.cStr #: cStr (T)  
 	KeepIconsFBO: bool = Coat_CPP.NodeGraph.KeepIconsFBO #: static bool (T)  
 	OpenGLInitialized: bool = Coat_CPP.NodeGraph.OpenGLInitialized #: static bool (T)  
 	UVFilter: cPy.cList.cList_int #: cList_int (T)  
 	previewRender: any #: NGPresetsPreviewer (T)  
-	ndHash: int #: DWORD (T)  
-	ndHashOffset: int #: DWORD (T)  
 	NeedMakeScript: bool #: bool (T)  
 	NeedRefreshResult: bool #: bool (T)  
 	HasCompileError: bool #: bool (T)  
-	CompileLog: cPy.cTypes.cStr #: cStr (T)  
+	CompileLog: str #: std :: string (T)  
 	RampListTexture: any #: comms :: cImage (T)  
 	RampListGLTexture: int #: int (T)  
+	NodeGraphPreviewFBO: int #: int (T)  
+	CentralImagePreviewHash: int #: DWORD (T)  
 	def RenderPreview(self, node: any):
+		pass # cpp source
+
+	@staticmethod
+	def ProcessNodeGraphPreview():
 		pass # cpp source
 
 	def __init__(self, _0: any, AutoDestroy: bool):
@@ -67,9 +66,8 @@ class NodeGraph(cPy.cCore.BaseClass):
 	NodeGraphInEditor: NodeGraph = Coat_CPP.NodeGraph.NodeGraphInEditor #: static NodeGraph * (T)  
 	NodeAllowGizmo: bool = Coat_CPP.NodeGraph.NodeAllowGizmo #: static bool (T)  
 	GlobalPropertyVisibilityLevel: int = Coat_CPP.NodeGraph.GlobalPropertyVisibilityLevel #: static int (T)  
+	ShowAllOutPropertiesInNodeInspector: bool = Coat_CPP.NodeGraph.ShowAllOutPropertiesInNodeInspector #: static bool (T)  
 	BuildTimeKnotId: int = Coat_CPP.NodeGraph.BuildTimeKnotId #: static int (T)  
-	LMB: bool #: bool (T)  
-	sLMB: bool = Coat_CPP.NodeGraph.sLMB #: static bool (T)  
 	HasAlbedoOut: bool #: bool (T)  
 	HasMetalOut: bool #: bool (T)  
 	HasNormalOut: bool #: bool (T)  
@@ -80,23 +78,38 @@ class NodeGraph(cPy.cCore.BaseClass):
 	HasEmissiveOut: bool #: bool (T)  
 	HasOpacityOut: bool #: bool (T)  
 	HasCavityOut: bool #: bool (T)  
+	HasGeometryInfoOut: bool #: bool (T)  
 	HasOcclusionOut: bool #: bool (T)  
 	HasBugleOut: bool #: bool (T)  
 	Nodes: cPy.ClassArray.ClassArray_BaseNode #: ClassArray_BaseNode (T)  nodes and knots in scene 
 	LayersList: any #: comms :: cList<NodeGraph *>(T)  
-	PropertiesHash: int #: int (T)  
-	PropertiesHashShift: int #: int (T)  
 	CodeNodeDefine: cPy.cTypes.cStr #: cStr (T)  
+	CustomGlobalVars: cPy.cTypes.cStr #: cStr (T)  
 	iNodeCode: cPy.cTypes.cStr #: cStr (T)  
 	iUsedFunctionsCode: cPy.cTypes.cStr #: cStr (T)  
 	isActive: bool #: bool (T)  
-	SkipValidator: bool = Coat_CPP.NodeGraph.SkipValidator #: static bool (T)  
+	sSkipValidator: bool = Coat_CPP.NodeGraph.sSkipValidator #: static bool (T)  
+	ForceCheckAllErrors: bool = Coat_CPP.NodeGraph.ForceCheckAllErrors #: static bool (T)  
 	isAnyActive: bool = Coat_CPP.NodeGraph.isAnyActive #: static bool (T)  
 	isAVUsed: bool #: bool (T)  
 	UsedCavity: bool #: bool (T)  
 	UsedAO: bool #: bool (T)  
+	UsedGeometryInfo: bool #: bool (T)  
+	Type: cPy.cTypes.cStr #: cStr (T)  
+	Search: cPy.cTypes.cStr #: cStr (T)  
+	AffectsResultCache: dict[str, bool] #: std :: map<std :: string, bool>(T)  
+	bNeedsGeometryInfoCached: bool #: bool (T)  
+	bNeedsCavityCached: bool #: bool (T)  
+	bNeedsAOCached: bool #: bool (T)  
+	bShaderCompiledSuccessfully: bool #: bool (T)  
+	FilterByTag: bool #: bool (T)  
+	RenderGlobalVars: bool #: bool (T)  
+	RenderObjectVars: bool #: bool (T)  
 	OutArrays: dict[cPy.cTypes.cStr, int] #: std :: map<cStr, int>(T)  
-	ComputeShaderID: int #: int (T)  index of defined texture(FBO) by array define name 
+	_ComputeShaderID: int #: int (T)  index of defined texture(FBO) by array define name 
+	def ComputeShaderID(self) -> int:
+		pass # cpp source
+
 	NeedRecenterNodes: bool #: bool (T)  
 	NeedCheckAOCavity: bool #: bool (T)  
 	def ReCenterNodes(self):
@@ -111,6 +124,18 @@ class NodeGraph(cPy.cCore.BaseClass):
 	def MakeScript(self):
 		pass # cpp source
 
+	SkipScriptMake: bool #: bool (T)  
+	LastNSMakeScriptHash: int #: DWORD (T)  
+	iNeedMakeScript: any #: uint64_t (T)  
+	def GetPropertiesChanged(self) -> any:
+		pass # cpp source
+
+	def GetCurvesTrivialChanged(self) -> any:
+		pass # cpp source
+
+	def GetNeedMakeScriptCounter(self) -> any:
+		pass # cpp source
+
 	def InsertKnotNamesToScript(self, aScript: cPy.cTypes.cStr) -> cPy.cTypes.cStr:
 		pass # cpp source
 
@@ -118,15 +143,23 @@ class NodeGraph(cPy.cCore.BaseClass):
 	def GetDefaultVarsCode() -> cPy.cTypes.cStr:
 		pass # cpp source
 
-	NodeSystemHashOffset: int #: int (T)  
-	ShaderVarHashOffset: int #: int (T)  
 	def GetNodeSystemHash(self) -> int:
+		'''
+			
+		 Removed legacy Hash variables
+		
+		'''
 		pass # cpp source
 
 	def GetShaderVarsHash(self) -> int:
 		pass # cpp source
 
-	def BuildRampListTexture(self):
+	bPropertiesChanged: bool #: bool (T)  
+	iPropertiesChanged: any #: uint64_t (T)  
+	bCurvesTrivialChanged: bool #: bool (T)  
+	iCurvesTrivialChanged: any #: uint64_t (T)  
+	LastRampBuildHash: any #: uint64_t (T)  
+	def BuildRampListTexture(self, forceUpdateAll: bool = False):
 		pass # cpp source
 
 	def FindElement(self, point: cPy.cTypes.cVec2, res: any, find_in_knots: bool, find_out_knots: bool, findnodes: bool, exceptcaptured: bool, Type: any = None) -> bool:
@@ -181,7 +214,7 @@ class NodeGraph(cPy.cCore.BaseClass):
 	def Process(self):
 		pass # cpp source
 
-	def CreateUI(self, Rect: any) -> any:
+	def CreateUI(self, Rect: cPy.cTypes.Rct) -> any:
 		'''
 			
 		void CreateDefaultCategories();
@@ -189,7 +222,9 @@ class NodeGraph(cPy.cCore.BaseClass):
 		'''
 		pass # cpp source
 
-	def OnCreateControlFromScratch(self, Context: any, Rect: any) -> any:
+	m_pUIWidget: any #: BaseWidget * (T)  
+	OwnerComponent: any #: NGComponent * (T)  
+	def OnCreateControlFromScratch(self, Context: any, Rect: cPy.cTypes.Rct) -> any:
 		pass # cpp source
 
 	def NodeIdByOutUniqueName(self, aUniqueName: cPy.cTypes.cStr) -> int:
@@ -204,7 +239,10 @@ class NodeGraph(cPy.cCore.BaseClass):
 	def WriteToLog(self, aCodeLang: any):
 		pass # cpp source
 
-	def ComputeRender(self):
+	def ComputeRender(self, zPos: float = 0.0):
+		pass # cpp source
+
+	def ComputeRenderPacked(self, vertices: any, numVertices: int, indices: int, numIndices: int):
 		pass # cpp source
 
 	def DefineTexture(self, texture_name: str, texture_id: int) -> bool:
@@ -235,7 +273,7 @@ class NodeGraph(cPy.cCore.BaseClass):
 		'''
 		pass # cpp source
 
-	def RemoveNode(self, n: any):
+	def AddNode(self) -> any:
 		'''
 			
 		void AddNodesCategory(const char* n);
@@ -243,10 +281,16 @@ class NodeGraph(cPy.cCore.BaseClass):
 		'''
 		pass # cpp source
 
+	def RemoveNode(self, n: any):
+		pass # cpp source
+
 	def NodesAffectResult(self, aIONodeName: cPy.cTypes.cStr = "") -> bool:
 		pass # cpp source
 
 	def Save(self, xml: any, ClassPtr: any, Extra: any):
+		pass # cpp source
+
+	def SaveAs(self, name: str, category: str, nodegraph_type: str):
 		pass # cpp source
 
 	def Load(self, xml: any, ClassPtr: any, Extra: any) -> bool:
@@ -291,6 +335,9 @@ class NodeGraph(cPy.cCore.BaseClass):
 	def WriteResultScriptToLog(self) -> int:
 		pass # cpp source
 
+	def ConvertAllCurvesToSimple(self):
+		pass # cpp source
+
 
 
 class BaseNode(cPy.cCore.BaseClass):
@@ -321,6 +368,13 @@ class BaseNode(cPy.cCore.BaseClass):
 
 	ShowPreview: bool #: bool (T)  
 	ShowInObjectInspector: bool #: bool (T)  
+	InlineNode: bool #: bool (T)  
+	InlineMinimized: bool #: bool (T)  
+	LastInlineMinimized: bool #: bool (T)  
+	WasInlineNode: bool #: bool (T)  
+	TemporarilyUnhidden: bool #: bool (T)  
+	HoveredWithCapturedKnot: bool #: bool (T)  
+	InlineFrameRect: cPy.cTypes.Rct #: Rct (T)  
 	NodeGraphLayerIdx: int #: int (T)  
 	NGLSrcPropertiesHash: int #: int (T)  
 	DefinesHash: int #: int (T)  
@@ -333,16 +387,20 @@ class BaseNode(cPy.cCore.BaseClass):
 		pass # cpp source
 
 	ParentNodeSystem: NodeGraph #: NodeGraph * (T)  
+	ParentNodeGraph: NodeGraph #: NodeGraph * (T)  
 	NGLNodeReference: any #: NGLNodeSourceResult * (T)  
 	NodeFilePath: cPy.cTypes.cStr #: cStr (T)  Node source file path (NGL for materials) 
 	UICompilerMessage: cPy.cTypes.cStr #: cStr (T)  An error or warning message for a node 
 	UICompilerERROR: bool #: bool (T)  An error or warning message for a node 
+	IsGlobalVarNode: bool #: bool (T)  
+	IsObjectVarNode: bool #: bool (T)  
 	NodeIdx: int #: int (T)  position on local space of the canvas 
-	Position: any #: Rct (T)  
+	Position: cPy.cTypes.Rct #: Rct (T)  
 	NeedDelete: bool #: bool (T)  
 	Selected: bool #: bool (T)  
 	Disabled: bool #: bool (T)  disabled, should not be used incalculations 
 	Captured: bool #: bool (T)  the node is catured to be draged 
+	DefinesExpanded: bool #: bool (T)  
 	TextWithShadow: bool #: bool (T)  Draw txt with shadows 
 	ShowKnotsNames: bool #: bool (T)  Display knots names in UI 
 	LoadSaveExtension: cPy.cTypes.cStr #: cStr (T)  set extension there if you need Load/Save botton in node editor triggered by doubleclick 
@@ -366,13 +424,19 @@ class BaseNode(cPy.cCore.BaseClass):
 	HelperText: cPy.cTypes.cStr #: cStr (T)  The ID used in editor of the node (if available) as desciption text in the message box. Should be filled in the constructor. 
 	In: cPy.ClassArray.ClassArray_knProperty #: ClassArray_knProperty (T)  input connections 
 	Out: cPy.ClassArray.ClassArray_knProperty #: ClassArray_knProperty (T)  output connections 
-	def GetInProperty(self, aPropertyName: cPy.cTypes.cStr) -> any:
+	def GetInProperty(self, aPropertyName: str) -> any:
 		pass # cpp source
 
-	def GetOutProperty(self, aPropertyName: cPy.cTypes.cStr) -> any:
+	def GetOutProperty(self, aPropertyName: str) -> any:
+		pass # cpp source
+
+	def GetHeaderColor(self) -> int:
 		pass # cpp source
 
 	def FixNodeName(self):
+		pass # cpp source
+
+	def OnChangeMember(self, MembClass: cPy.cCore.BaseClass, MembPtr: any, MembExtra: any, MembName: str) -> bool:
 		pass # cpp source
 
 	def SetupInPointers(self):
@@ -381,40 +445,64 @@ class BaseNode(cPy.cCore.BaseClass):
 	def SetupInNamesByPointers(self):
 		pass # cpp source
 
-	def SetInKnot(self, aPropertyName: cPy.cTypes.cStr, aKnot: any) -> bool:
+	def SetInKnot(self, aPropertyName: str, aKnot: any) -> bool:
 		pass # cpp source
 
-	def SetInProperty(self, aPropertyName: cPy.cTypes.cStr, aValue: cPy.cTypes.cVec4) -> bool:
+	def SetInProperty(self, aPropertyName: str, aValue: cPy.cTypes.cVec4) -> bool:
 		pass # cpp source
 
-	def SetOutProperty(self, aPropertyName: cPy.cTypes.cStr, aValue: cPy.cTypes.cVec4, aCreatePropety: bool = False) -> bool:
+	def SetOutProperty(self, aPropertyName: str, aValue: cPy.cTypes.cVec4, aCreatePropety: bool = False) -> bool:
 		pass # cpp source
 
-	def SetInProperty(self, aPropertyName: cPy.cTypes.cStr, aValue: cPy.cTypes.cVec3) -> bool:
+	def SetInProperty(self, aPropertyName: str, aValue: cPy.cTypes.cVec3) -> bool:
 		pass # cpp source
 
-	def SetOutProperty(self, aPropertyName: cPy.cTypes.cStr, aValue: cPy.cTypes.cVec3, aCreatePropety: bool = False) -> bool:
+	def SetOutProperty(self, aPropertyName: str, aValue: cPy.cTypes.cVec3, aCreatePropety: bool = False) -> bool:
 		pass # cpp source
 
-	def SetInProperty(self, aPropertyName: cPy.cTypes.cStr, aValue: any) -> bool:
+	def SetInProperty(self, aPropertyName: str, aValue: any) -> bool:
 		pass # cpp source
 
-	def SetOutProperty(self, aPropertyName: cPy.cTypes.cStr, aValue: any, aCreatePropety: bool = False) -> bool:
+	def SetOutProperty(self, aPropertyName: str, aValue: any, aCreatePropety: bool = False) -> bool:
 		pass # cpp source
 
-	def SetInProperty(self, aPropertyName: cPy.cTypes.cStr, aValue: float) -> bool:
+	def HasConnectionToAnyNodeInList(self, list: cPy.ClassArray.ClassArray_BaseNode) -> bool:
 		pass # cpp source
 
-	def SetOutProperty(self, aPropertyName: cPy.cTypes.cStr, aKnaValueot: float, aCreatePropety: bool = False) -> bool:
+	def GetInlineTargetNode(self) -> BaseNode:
 		pass # cpp source
 
-	def SetInProperty(self, aPropertyName: cPy.cTypes.cStr, aValue: any) -> bool:
+	def GetRenderedInlineTargetNode(self) -> BaseNode:
 		pass # cpp source
 
-	def SetDefine(self, aDefineName: cPy.cTypes.cStr, aValue: int) -> bool:
+	def GetIncomingLinksCount(self) -> int:
 		pass # cpp source
 
-	def SetStringDefine(self, aDefineName: cPy.cTypes.cStr, aValue: cPy.cTypes.cStr) -> bool:
+	def GetOutgoingLinksCount(self) -> int:
+		pass # cpp source
+
+	def GetUniqueNonInlineTargetNodesCount(self) -> int:
+		pass # cpp source
+
+	def GetFinalTargetNode(self) -> BaseNode:
+		pass # cpp source
+
+	def IsKnotSynchronized(self, knot: any) -> bool:
+		pass # cpp source
+
+	def SetInProperty(self, aPropertyName: str, aValue: float) -> bool:
+		pass # cpp source
+
+	def SetOutProperty(self, aPropertyName: str, aKnaValueot: float, aCreatePropety: bool = False) -> bool:
+		pass # cpp source
+
+	def SetInProperty(self, aPropertyName: str, aValue: any) -> bool:
+		pass # cpp source
+
+	def SetDefine(self, aDefineName: str, aValue: int) -> bool:
+		pass # cpp source
+
+	def SetStringDefine(self, aDefineName: str, aValue: str) -> bool:
 		pass # cpp source
 
 	UserDefines: any #: NodeNGLUserDefines (T)  Values of Defines that have been set by the user for this node. 
@@ -443,64 +531,10 @@ class BaseNode(cPy.cCore.BaseClass):
 		'''
 		pass # cpp source
 
-	def Render(self, canvas: any):
-		'''
-			
-		Render node itself.
-		
-		'''
-		pass # cpp source
-
-	def RenderCurve(self, canvas: any, p0: cPy.cTypes.cVec2, p1: cPy.cTypes.cVec2, p2: cPy.cTypes.cVec2, p3: cPy.cTypes.cVec2, aColor: int = 044):
-		'''
-			
-		render in/out links for the node
-		
-		'''
-		pass # cpp source
-
-	def RenderLink(self, canvas: any, p0: cPy.cTypes.cVec2, p1: cPy.cTypes.cVec2, aOffset: float, aOffset2: float, aColor: int = 044):
-		pass # cpp source
-
-	def RenderLinks(self, canvas: any):
-		pass # cpp source
-
-	def EditContent(self, show: bool) -> bool:
-		'''
-			
-		show editor if show == true. Othervice return true if editor available
-		
-		'''
-		pass # cpp source
-
-	def EditClass(self, bc: cPy.cCore.BaseClass):
-		'''
-			
-		by default, EditContent just calls EditClass(this)
-		
-		'''
-		pass # cpp source
-
-	def GetDimensions(self, canvas: any) -> cPy.cTypes.cVec3:
-		'''
-			
-		return cVec3(width, header_height,bottom_height)
-		
-		'''
-		pass # cpp source
-
-	def SetLook(self, canvas: any, WithHeader: bool, Semitransparent: bool):
-		'''
-			
-		set style of the node. It is better to call it in each Render cycle as first command.
-		
-		'''
-		pass # cpp source
-
 	def GetUsedFunctions(self, aFuncCode: cPy.cTypes.cStr, aCodeLang: any, aRevisionId: int):
 		'''
 			
-		virtual void CheckTypes();
+		Render node itself.
 		
 		'''
 		pass # cpp source
@@ -566,8 +600,15 @@ class ndNGLNode(BaseNode):
 		pass # cpp source
 
 	NeedSecondBuild: bool #: bool (T)  
+	customSource: any #: ndNGLNodeSource * (T)  
 	def NodeSource(self) -> any:
 		pass # cpp source
+
+	def setNGLSource(self, ngl_source: str):
+		pass # cpp source
+
+	def __init__(self):
+		pass # CPP source
 
 	def __init__(self):
 		pass # CPP source
@@ -588,7 +629,7 @@ class ndNGLNode(BaseNode):
 		pass # cpp source
 
 	@staticmethod
-	def GetSourceByFilePath(aFilePath: cPy.cTypes.cStr, aUserDefines: any, aNodeIdx: int) -> any:
+	def GetSourceByFilePath(aFilePath: str, aUserDefines: any, aNodeIdx: int) -> any:
 		pass # cpp source
 
 	@staticmethod
@@ -604,7 +645,7 @@ class ndNGLNode(BaseNode):
 	def LoadFromFile(self):
 		pass # cpp source
 
-	def LoadFromFilePath(self, aFileName: cPy.cTypes.cStr):
+	def LoadFromFilePath(self, aFileName: str):
 		pass # cpp source
 
 	def AddCustomProperty(self):
@@ -656,10 +697,14 @@ class BaseKnot(cPy.cCore.BaseClass):
 	PropertyType: any #: knPropertyType (T)  
 	CodeFuncAttrType: cPy.cTypes.cStr #: cStr (T)  0 - no default value; 1 - Float; 2 - Vector2D; 3 - Vector3D; 4 - Vector4D; 5 - Color; 
 	ParentNode: BaseNode #: BaseNode * (T)  
-	InNodeName: cPy.cTypes.cStr #: cStr (T)  each knot may have one input connection 
+	InGraphUID: cPy.cTypes.cStr #: cStr (T)  each knot may have one input connection 
+	InNodeName: cPy.cTypes.cStr #: cStr (T)  
 	InKnotName: cPy.cTypes.cStr #: cStr (T)  
 	PInConnection: any #: knProperty * (T)  
 	def SetInConnection(self, aInConnection: any):
+		pass # cpp source
+
+	def SetIn(self, node_name: str, property_name: str):
 		pass # cpp source
 
 	def CompatibleWithOutput(self, InKnot: BaseKnot) -> bool:
@@ -740,11 +785,17 @@ class knProperty(BaseKnot):
 	Invert: bool #: bool (T)  
 	IsExpandedInOI: int #: int (T)  
 	VisLevel: int #: int (T)  
-	CodeFuncAttrID: int #: int (T)  For whom to show this attribute (for everyone, favorite, for experts or hide) 
+	BoundValue: bool #: bool (T)  For whom to show this attribute (for everyone, favorite, for experts or hide) 
+	CodeFuncAttrID: int #: int (T)  
 	ElementCount: int #: int (T)  
 	ShowCurveUI: bool #: bool (T)  
 	CustomExpression: bool #: bool (T)  
 	def SetInConnection(self, aInConnection: knProperty):
+		'''
+			
+		bool InlineNode = false;
+		
+		'''
 		pass # cpp source
 
 	def GetV4(self) -> cPy.cTypes.cVec4:
@@ -756,7 +807,12 @@ class knProperty(BaseKnot):
 		pass # cpp source
 
 	Deform: any #: PropertyRamp (T)  
+	LastTrivialState: bool #: bool (T)  
+	def OnChangeMember(self, MembClass: cPy.cCore.BaseClass, MembPtr: any, MembExtra: any, MembName: str) -> bool:
+		pass # cpp source
+
 	spHash: int #: DWORD (T)  
+	structuralHash: int #: DWORD (T)  
 	legacy: cPy.cTypes.cStr #: cStr (T)  
 	Expression: any #: ndNGLNodeSource (T)  
 	UserDefines: any #: NodeNGLUserDefines (T)  
@@ -815,6 +871,18 @@ class knProperty(BaseKnot):
 		pass # cpp source
 
 	def EditProperty(self):
+		pass # cpp source
+
+	def StartLinkMode(self):
+		pass # cpp source
+
+	def CancelLinkMode(self):
+		pass # cpp source
+
+	def ConnectLinkMode(self):
+		pass # cpp source
+
+	def UnlinkConnection(self):
 		pass # cpp source
 
 	def EditCurve(self):

@@ -234,11 +234,11 @@ class RenderUtils():
 		pass # cpp source
 
 	@staticmethod
-	def GetViewPort() -> any:
+	def GetViewPort() -> cPy.cTypes.Rct:
 		pass # cpp source
 
 	@staticmethod
-	def SetViewPort(R: any):
+	def SetViewPort(R: cPy.cTypes.Rct):
 		pass # cpp source
 
 	@staticmethod
@@ -310,7 +310,11 @@ class RenderUtils():
 		pass # cpp source
 
 	@staticmethod
-	def drawPicture(rect: any, Texture: int, Color: int, Shadow: bool):
+	def MakeGLContextCurrent() -> bool:
+		pass # cpp source
+
+	@staticmethod
+	def drawPicture(rect: cPy.cTypes.Rct, Texture: int, Color: int, Shadow: bool):
 		pass # cpp source
 
 	@staticmethod

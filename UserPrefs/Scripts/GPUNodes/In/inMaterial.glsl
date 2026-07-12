@@ -1,10 +1,13 @@
 
+out Material material;
 out float metalness;
 out float gloss;
 out float displacement;
 out float Opacity;
 out color AlbedoColor;
 
+
+material = ioMTL;
 metalness = ioMetalness;   
 
 Opacity = ioOpacity;

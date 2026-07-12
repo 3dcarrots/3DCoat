@@ -1,6 +1,5 @@
 from __future__ import annotations
 import cPy.cTypes
-import cPy.cList
 import cPy.cCore
 #cModel
 import Coat_CPP
@@ -156,7 +155,6 @@ class VolumeColorizer():
 		
 	'''
 
-	cells: any #: cList<cell *>(T)  
 	SingleLayer: int #: int (T)  
 	def __init__(self):
 		pass # CPP source
@@ -234,7 +232,6 @@ class VolumeObject(cPy.cCore.BaseClass):
 	def DestroySubdLevels(self) -> bool:
 		pass # cpp source
 
-	volumetricalGettter: any #: >(T)  
 	linkedObjects: any #: ClassArray<LinkedObject>(T)  
 	NGObjectIdx: int #: int (T)  
 	AverageEdgeLengthInPen: float = Coat_CPP.VolumeObject.AverageEdgeLengthInPen #: static float (T)  
@@ -306,8 +303,6 @@ class VolumeObject(cPy.cCore.BaseClass):
 	HasTransparency: bool #: bool (T)  < this is for undo, it indicates that structure of volume changed drastically, almost no correstondence between old and new 
 	RenderJustFacture: bool #: bool (T)  < for render - nood to sort triangles or not 
 	SomethingNewSelected: bool = Coat_CPP.VolumeObject.SomethingNewSelected #: static bool (T)  
-	Joints: any #: cList<SnapJoint>(T)  Joints of all merged objects 
-	BackupJoints: any #: cList<SnapJoint>(T)  
 	def AddJoint(self, J: any, GlobalTransform: cPy.cTypes.cMat4):
 		'''
 			
@@ -389,7 +384,6 @@ class VolumeObject(cPy.cCore.BaseClass):
 	SimpleStampMode: bool #: bool (T)  
 	HideMode: bool #: bool (T)  
 	InSurfaceRepresentation: bool #: bool (T)  
-	RenderOrder: any #: cList<MCMeshInCell *>(T)  
 	OrderDir: cPy.cTypes.cVec3 #: cVec3 (T)  
 	def GetCell(self, x: int, y: int, z: int, Create: bool, CreateBackup: bool = False, Multithreaded: bool = True) -> any:
 		'''
@@ -768,14 +762,6 @@ class VolumeObject(cPy.cCore.BaseClass):
 		pass # cpp source
 
 	def SnapToVolume(self, pos: cPy.cTypes.cVec3, dir: cPy.cTypes.cVec3) -> cPy.cTypes.cVec3:
-		pass # cpp source
-
-	def StoreLayerToFile(self, y: float, Name: str):
-		'''
-			
-			void ApplyToPickPool(Vector3D Pos,float Radius,fnGetSurfDisp4* fn,fnGetSurfDisp2* Reader,float SmDeg); // implementation not found
-		
-		'''
 		pass # cpp source
 
 	def Restore(self, BS: any, TryToFind: bool = False, CacheName: str = None):
@@ -1396,8 +1382,7 @@ class VolumeCell():
 	BackupDropTick: int #: int (T)  Cells before this change. Undo will get to this state when applied. 
 	Backup: VolumeCell #: VolumeCell * (T)  
 	Temp: any #: VoxType * (T)  
-	Values: any #: VoxType * (T)  Pointer to voxels array 9x9x9. Voxel values itself, <=32767 - empty space, >=32768 - filled space.\n For details, it may be zero if all voxels are the same. In this case `SameValue` contains this same value. Surface is determined by the value 32767 using marching cubes. 
-	Layers: any #: cList<VolumetricLayer *>(T)  
+	Values: any #: VoxType * (T)  Array of voxel density (0-65535). Voxel values itself, where the value 32767.5 represents the surface boundary. The size of the cell is typically 9x9x9 (8x8x8 plus a neighboring layer). For details, it may be zero if all voxels are the same. In this case `SameValue` contains this same value. Surface is determined by the value 32767 using marching cubes. 
 	SameValue: any #: VoxType (T)   If cell is completely filled or empty and `Values == nullptr` the value is used as cell filler. 
 	boolean_hash: float #: float (T)  
 	RenderStamp: any #: WORD (T)  
@@ -1459,16 +1444,7 @@ class VolumeCellAttrib():
 	RctW: int #: short (T)  
 	RctH: int #: short (T)  
 	VertsAB: any #: AABoundBox (T)  
-	Verts: any #: cList<MCVertex>(T)  Vertices of the mesh in the cell. Of course, same vertex may be present in neighbour cells and sometimes you need to identify that 2 vertices from different cells represent single global index. There are two ways. Using `Status` field in `MCVertex` that represents edge status. It has global index for every vertex in cell. 
-	BackupVerts: any #: cList<MCVertex>(T)  
-	LeakyPos: any #: cList<vPosNorm>(T)  
-	BackupIds: any #: cList<indtype>(T)  Verticies and indicies before this change. Undo will get to this state when applied. 
-	OldVerts: any #: cList<MCVertex>(T)  Positions / normals of vertices before entering surface mode. 
-	Indices: any #: cList<indtype>(T)  Indices of mesh in the cell. They refer vertices in this cell. Each three indices represent triangle. 
-	TempVerts: any #: cList<MCVertex>(T)  
-	GlobalVertIndices: cPy.cList.cList_DWORD #: cList_DWORD (T)  GlobalVertIndices are references of global vertices indices. GlobalVertIndices corresponds to vertex list Verts. Each vertex in Verts corresponds to item in GlobalVertIndices. If GlobalVertIndices is empty - there are no global indexation in the mesh. Each value is DWORD. Highest bit (0x80000000) is set up if the vertex is on the edge of the cell. The global index itself is GlobalVertIndices[i]&0x7FFFFFFFFF 
-	Layers: any #: cList<VoxLayer>(T)  
-	CurLayerInvisible: bool = Coat_CPP.VolumeCellAttrib.CurLayerInvisible #: static bool (T)  
+	CurLayerInvisible: bool = Coat_CPP.VolumeCellAttrib.CurLayerInvisible #: static bool (T)  Vertices of the mesh in the cell. Of course, same vertex may be present in neighbour cells and sometimes you need to identify that 2 vertices from different cells represent single global index. There are two ways. Using `Status` field in `MCVertex` that represents edge status. It has global index for every vertex in cell. 
 	CurLayerDepthMod: float = Coat_CPP.VolumeCellAttrib.CurLayerDepthMod #: static float (T)  
 	UseLayerScale: bool = Coat_CPP.VolumeCellAttrib.UseLayerScale #: static bool (T)  
 	InvisLayerWarning: bool = Coat_CPP.VolumeCellAttrib.InvisLayerWarning #: static bool (T)  

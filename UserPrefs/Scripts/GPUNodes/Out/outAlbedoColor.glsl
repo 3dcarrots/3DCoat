@@ -1,6 +1,12 @@
 
+#bool AlphaIsOpacity
+
 in color AlbedoColor;
-Material myMTL;
-myMTL.ioAlbedoColor = AlbedoColor;
-myMTL.ioAlbedoColor *= 1.0;
-ioMTL.ioAlbedoColor = myMTL.ioAlbedoColor;
+ioAlbedoColor = AlbedoColor.xyz;
+
+#if AlphaIsOpacity
+	ioOpacity = AlbedoColor.w;
+#else 	
+	in float Opacity(value=1, min=0, max=1);
+	ioOpacity = Opacity;
+#endif

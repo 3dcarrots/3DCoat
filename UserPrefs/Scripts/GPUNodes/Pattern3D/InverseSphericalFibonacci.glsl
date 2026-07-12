@@ -1,6 +1,6 @@
 	void main(
-		in vec3 Dir(knot = ioNormal, min = -1.0, max = 1.0),
-		in float Num(value = 64, min = -1.0, max = 1.0),
+		in vec3 Dir(knot = ioNormal, min = -1.0, max = 1.0, expression= R=(V*K)),
+		in float Num(value = 64, min = -1.0, max = 1.0, expression= R=(V*K)),
 		out float Dist,
 		out float IOut
 	)

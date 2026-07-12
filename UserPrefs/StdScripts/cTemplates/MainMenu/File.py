@@ -19,6 +19,8 @@ def S_New():
    coat.menu_hotkey("N", 0, 1, 0) # CTRL+N
    coat.menu_item("OPEN_FILE") # Open
    coat.menu_hotkey("O", 0, 1, 0) # CTRL+O
+   coat.menu_item("OPEN_PROJECTFOLDER") # Open Project Folder
+   coat.menu_item("CLOSE_PROJECTFOLDER") # Close Project Folder
    coat.menu_item("RecentFiles") # Open Recent
    coat.menu_item("Autosave") # Auto Save
    if not coat.is_new_scene(): 
@@ -249,7 +251,8 @@ def ExportGltf():
     """
     coat.menu_item("ExportGltfSeparate") # Gltf Separate (.gltf + .bin + textures)
     coat.menu_item("ExportGltfEmbedded") # Gltf Embedded (.gltf)
-
+    coat.menu_item("ExportGltfBinary") # Gltf Binary (.glb)
+    
 @d_submenu("3D-Printing", S_Export_Voxels)
 def Printing3D():
     """

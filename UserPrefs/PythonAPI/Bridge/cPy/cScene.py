@@ -12,7 +12,7 @@ from typing import Any
 from enum import Enum
 
 
-class VoxMethadata():
+class VoxMethadata(cPy.cCore.cTool):
 	'''
 			
 		Base class for voxel metadata extensions.
@@ -23,7 +23,7 @@ class VoxMethadata():
 
 
 	@staticmethod
-	def dynamic_cast(pObject : any)->VoxMethadata:
+	def dynamic_cast(pObject : cPy.cCore.BaseClass)->VoxMethadata:
 		'''
 		An analogue of the dynamic_cast function from C++, it checks whether the object pObject is a VoxMethadata class or its descendant, and if so, returns the specified object, but of the VoxMethadata type.
 		'''
@@ -61,7 +61,6 @@ class CutsCollector():
 		
 	'''
 
-	edges: list #: cList<std :: pair<cVec3, cVec3>>(T)  
 	preferred_name: cPy.cTypes.cStr #: cStr (T)  
 	def transform(self, m: cPy.cTypes.cMat4):
 		pass # cpp source
@@ -101,14 +100,23 @@ class CutsCollector():
 class VoxTreeBranch():
 	'''
 			
-		Hierarchical layers (voxel and surface) which you see in the SculptRoom.
+		Main element of the object tree in the sculpt room, rooted at RootVTree.
 		
+		Hierarchical layers (voxel and surface) which you see in the SculptRoom.
 		Every item in this object contains transform matrix and reference to the item in `VTree`.
 		It refers `VolumeObject`. There may be multiple references on same `VolumeObject` from separate `VoxTreeBranch`-es.
 		Root of all `VoxTreeBranches` kept in `RootVTree`.
 		\see VolumeObject
 		
 	'''
+
+
+	@staticmethod
+	def dynamic_cast(pObject : any)->VoxTreeBranch:
+		'''
+		An analogue of the dynamic_cast function from C++, it checks whether the object pObject is a VoxTreeBranch class or its descendant, and if so, returns the specified object, but of the VoxTreeBranch type.
+		'''
+		pass # cpp source
 
 	def __init__(self):
 		pass # CPP source
@@ -117,20 +125,20 @@ class VoxTreeBranch():
 		pass # CPP source
 
 	Parent: VoxTreeBranch #: VoxTreeBranch * (T)  
-	Obj: cPy.cModel.VolumeObject #: VolumeObject * (T)  Pointer to the actual volumetric or surface data. 
+	Obj: cPy.cModel.VolumeObject #: VolumeObject * (T)  Reference to the actual geometric/volumetric data. 
 	StoreMode: bool = Coat_CPP.VoxTreeBranch.StoreMode #: static bool (T)  cStr Name; ///< name in tree 
 	Ghost: bool #: bool (T)  bool Visible; ///< visibility 
 	pVoxSurf: bool #: bool (T)  < ghosting mode 
-	VoxSurf: bool #: bool (T)  < was in surface mode on previous frame? 
-	HideInViewport: bool #: bool (T)  < true if object is in Surface mode, false if in Voxel mode. 
+	VoxSurf: bool #: bool (T)  \brief True means Surface mode, false means Voxel mode. 
+	HideInViewport: bool #: bool (T)  
 	Procesed: bool #: bool (T)  < Hidden in viewport, but pickable/visible in tree. 
 	IsRef: bool #: bool (T)  bool OpenState; ///< branch is open 
 	IsActive: bool #: bool (T)  
 	IsInTransform: bool #: bool (T)  
 	ToDestroy: bool #: bool (T)  
 	InCache: bool #: bool (T)  < should be destroyed. Don't delete leafs manually, just set this flag! 
-	Instance: bool #: bool (T)  < is in cache 
-	SkipPick: bool #: bool (T)  < is Instance. It does not mean that it was actually instanced. Current selected object is never instance! It gives instance flag to other non-current leaf. 
+	Instance: bool #: bool (T)  Indicates if the object is an instance. If false, it is the original object. If true, the object references an existing VolumeObject to save memory. 
+	SkipPick: bool #: bool (T)  
 	Inverse: bool #: bool (T)  
 	SelectionTime: int #: int (T)  bool Selected; 
 	CacheName: cPy.cTypes.cStr #: cStr (T)  
@@ -498,6 +506,9 @@ class VoxTreeBranch():
 		pass # cpp source
 
 	def ChangeParent(self, p: VoxTreeBranch) -> bool:
+		pass # cpp source
+
+	def ChangeThisParent(self, p: VoxTreeBranch) -> bool:
 		pass # cpp source
 
 	def ShowHideButThis(self):
