@@ -1,0 +1,7 @@
+Sphinx == 8.2.3
+sphinx-book-theme
+matplotlib
+pyparsing
+sphinx-codeautolink
+beautifulsoup4
+pyenchant
