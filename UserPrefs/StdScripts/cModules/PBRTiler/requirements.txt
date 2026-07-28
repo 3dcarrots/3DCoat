@@ -1,0 +1,4 @@
+numpy
+moderngl
+opencv-python
+PySide6

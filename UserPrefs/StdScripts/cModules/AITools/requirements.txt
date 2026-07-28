@@ -1,0 +1,4 @@
+debugpy
+pywin32
+fastmcp==3.0.0
+uvicorn==0.30.1

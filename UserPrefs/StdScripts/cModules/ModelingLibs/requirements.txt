@@ -1,0 +1,5 @@
+Trimesh
+Open3D
+PyOpenVDB
+CadQuery
+Build123d

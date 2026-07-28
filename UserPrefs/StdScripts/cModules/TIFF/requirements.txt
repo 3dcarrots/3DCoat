@@ -1,0 +1,3 @@
+tifffile
+imagecodecs
+numpy
